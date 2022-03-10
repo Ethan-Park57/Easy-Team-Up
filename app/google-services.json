@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "664572282865",
+    "project_id": "easyteamup-3c633",
+    "storage_bucket": "easyteamup-3c633.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:664572282865:android:f79bb6431ae9de96bd2650",
+        "android_client_info": {
+          "package_name": "com.example.easyteamup"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "664572282865-dvaa8vkkcndjnpupjgo2krit6jmrd3kd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDRnEG-p2QsPRG8rlVKXDmZE5icZ4TRnpU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "664572282865-dvaa8vkkcndjnpupjgo2krit6jmrd3kd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
