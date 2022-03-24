@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
-            android:name=".MainActivity"
+            android:name=".CreateEventActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -19,6 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
+
     </application>
 
 </manifest>
