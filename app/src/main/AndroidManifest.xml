@@ -10,7 +10,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EasyTeamUp">
         <activity
-            android:name=".CreateEventActivity"
+            android:name=".WelcomeActivity"
             android:exported="true"
             android:label="@string/app_name">
             <intent-filter>
@@ -18,6 +18,14 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+
+        <activity
+            android:name=".LoginActivity">
+        </activity>
+
+        <activity
+            android:name=".RegisterActivity">
         </activity>
 
 

@@ -33,6 +33,8 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+
+
         EditText eventNameInput = (EditText) findViewById(R.id.event_name);
         EditText eventDescriptionInput = (EditText) findViewById(R.id.event_description);
         Button submitButton = (Button) findViewById(R.id.create_event);
