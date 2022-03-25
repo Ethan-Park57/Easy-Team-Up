@@ -26,10 +26,6 @@
             android:exported="true">
         </activity>
 
-
-
-
-
         <activity
             android:name=".LoginActivity">
         </activity>
@@ -38,6 +34,9 @@
             android:name=".RegisterActivity">
         </activity>
 
+        <activity
+            android:name=".CreateEventActivity">
+        </activity>
 
 
 

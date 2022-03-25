@@ -12,24 +12,31 @@ import com.example.easyteamup.ui.create.CreateFragment;
 import com.example.easyteamup.ui.events.EventsFragment;
 import com.example.easyteamup.ui.events.EventsViewModel;
 
-public class RegisterActivity  extends AppCompatActivity implements View.OnClickListener {
+public class RegisterActivity  extends AppCompatActivity {
     Button registrationbutton;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
 
-        registrationbutton = findViewById(R.id.registration_button);
-        registrationbutton.setOnClickListener(this);
+        Button backButton = (Button) findViewById(R.id.back_button);
+        backButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(RegisterActivity.this, WelcomeActivity.class));
 
-    }
+            }
+        });
 
-    @Override
-    public void onClick(View v) {
-//        if(v.getId()==R.id.registration_button){
-//            getSupportFragmentManager().beginTransaction().replace(R.id.register,new EventsFragment()).commit();
-//            R.id.register
-//        }
+        Button registerButton = (Button) findViewById(R.id.registration_button);
+        registerButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                startActivity(new Intent(RegisterActivity.this, CreateEventActivity.class));
+
+            }
+        });
+
     }
 
 }
