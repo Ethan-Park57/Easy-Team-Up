@@ -62,6 +62,13 @@
             android:name=".MapViewActivity">
         </activity>
 
+        <activity
+            android:name=".ProfileEditActivity">
+        </activity>
+        <activity
+            android:name=".ProfileActivity">
+        </activity>
+
 
     </application>
 
