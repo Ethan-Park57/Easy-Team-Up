@@ -1,6 +1,7 @@
 package com.example.easyteamup;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -37,7 +38,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
         EditText eventNameInput = (EditText) findViewById(R.id.event_name);
         EditText eventDescriptionInput = (EditText) findViewById(R.id.event_description);
-        Button submitButton = (Button) findViewById(R.id.create_event);
+        Button createEventButton = (Button) findViewById(R.id.create_event);
 
         spinner = (Spinner)findViewById(R.id.spinner);
         ArrayAdapter<String>adapter = new ArrayAdapter<String>(CreateEventActivity.this,
@@ -46,7 +47,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         spinner.setAdapter(adapter);
         spinner.setOnItemSelectedListener(this);
 
-        submitButton.setOnClickListener(new View.OnClickListener(){
+        createEventButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
                 String eventName = eventNameInput.getText().toString();
@@ -63,6 +64,11 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 String id = db.collection("events").document().getId();
                 data.put("EventID", id);
                 db.collection("events").document(id).set(data);
+
+                startActivity(new Intent(CreateEventActivity.this, ManageEventActivity.class));
+
+
+
             }
         });
 
