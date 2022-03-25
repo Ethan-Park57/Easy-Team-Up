@@ -35,11 +35,13 @@
         </activity>
 
         <activity
+            android:exported="true"
             android:name=".CreateEventActivity">
         </activity>
 
 
         <activity
+            android:exported="true"
             android:name=".ManageEventActivity">
         </activity>
 
@@ -56,16 +58,22 @@
         </activity>
 
         <activity
+            android:exported="true"
             android:name=".ListViewActivity">
         </activity>
+
+
         <activity
+            android:exported="true"
             android:name=".MapViewActivity">
         </activity>
 
         <activity
             android:name=".ProfileEditActivity">
         </activity>
+
         <activity
+            android:exported="true"
             android:name=".ProfileActivity">
         </activity>
 
