@@ -1,8 +1,8 @@
 <resources>
     <string name="app_name">Easy Team Up</string>
-    <string name="title_notifications">Notifications</string>
     <string name="title_events">Events</string>
     <string name="title_create">Create</string>
+    <string name="title_manage">Manage</string>
 
     <string-array name="type_array">
         <item>Sports</item>
