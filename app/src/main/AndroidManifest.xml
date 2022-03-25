@@ -55,6 +55,12 @@
             android:name=".RegisteredEventsActivity">
         </activity>
 
+        <activity
+            android:name=".ListViewActivity">
+        </activity>
+        <activity
+            android:name=".MapViewActivity">
+        </activity>
 
 
     </application>
