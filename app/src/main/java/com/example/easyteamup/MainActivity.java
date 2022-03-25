@@ -45,6 +45,7 @@ public class MainActivity extends AppCompatActivity {
 //        NavigationUI.setupWithNavController(binding.navView, navController);
 
 
+
         Map<String, Object> data = new HashMap<>();
         data.put("capital", true);
         db.collection("cities").document("BJ").set(data, SetOptions.merge());
