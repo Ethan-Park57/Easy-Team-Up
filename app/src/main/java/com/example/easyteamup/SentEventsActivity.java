@@ -62,44 +62,85 @@ public class SentEventsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        sentAdapter = new SentEventsRecyclerViewAdapter(this, sentEventsList);
-        recyclerView.setAdapter(sentAdapter);
 
-        readData(list -> {
-            if (sentEventsList.size() != buf.size()) {
-                addData();
+//        recyclerView.setAdapter(sentAdapter);
+
+//        System.out.println("Sent events size: " + sentEventsList.size());
+//        System.out.println("Buffer  size: " + buf.size());
+
+        db.collection("SentEvents").whereEqualTo("hostID", 310904)
+                .get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    // System.out.println(document.getId() + "=> " + document.getData());
+                    sentEventsList.add(document.toObject(Event.class));
+                    // buf.add(document.toObject(Event.class));
+                }
+                sentAdapter = new SentEventsRecyclerViewAdapter(this, sentEventsList);
+                recyclerView.setAdapter(sentAdapter);
+                // firestoreCallback.onCallback(sentEventsList);
+            } else {
+                System.out.println("Error getting documents: " + task.getException());
             }
         });
 
+        // readData();
+
+//        readData(list -> {
+//            if (sentEventsList.size() != buf.size()) {
+//                addData();
+//                System.out.println("Sent events size: " + sentEventsList.size());
+//                System.out.println("Buffer  size: " + buf.size());
+//            }
+//        });
+
         System.out.println("DONE");
     }
-
-    private void readData(FirestoreCallback firestoreCallback) {
-        db.collection("SentEvents").whereEqualTo("hostID", 310904)
-            .get().addOnCompleteListener(task -> {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                        // System.out.println(document.getId() + "=> " + document.getData());
-                        buf.add(document.toObject(Event.class));
-                    }
-                    firestoreCallback.onCallback(sentEventsList);
-                } else {
-                    System.out.println("Error getting documents: " + task.getException());
-                }
-            });
-    }
-
-    private void addData() {
-        System.out.println(buf.size());
-        sentEventsList.addAll(0, buf);
-        sentAdapter.notifyItemRangeInserted(0, buf.size());
-    }
-
-    private interface FirestoreCallback {
-        void onCallback(ArrayList<Event> list);
-    }
 }
-
+//
+//    private void readData(/*FirestoreCallback firestoreCallback*/) {
+//        db.collection("SentEvents").whereEqualTo("hostID", 310904)
+//<<<<<<< Updated upstream
+//            .get().addOnCompleteListener(task -> {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+//                        // System.out.println(document.getId() + "=> " + document.getData());
+//                        buf.add(document.toObject(Event.class));
+//                    }
+//                    firestoreCallback.onCallback(sentEventsList);
+//                } else {
+//                    System.out.println("Error getting documents: " + task.getException());
+//                }
+//            });
+//=======
+//                .get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+//                    // System.out.println(document.getId() + "=> " + document.getData());
+//                    sentEventsList.add(document.toObject(Event.class));
+//                    // buf.add(document.toObject(Event.class));
+//                }
+//                sentAdapter = new SentEventsRecyclerViewAdapter(this, sentEventsList);
+//                recyclerView.setAdapter(sentAdapter);
+//                // firestoreCallback.onCallback(sentEventsList);
+//            } else {
+//                System.out.println("Error getting documents: " + task.getException());
+//            }
+//        });
+//>>>>>>> Stashed changes
+//    }
+//
+//    private void addData() {
+//        System.out.println(buf.size());
+//        sentEventsList.addAll(0, buf);
+//        sentAdapter.notifyItemRangeInserted(0, buf.size());
+//    }
+//
+//    private interface FirestoreCallback {
+//        void onCallback(ArrayList<Event> list);
+//    }
+//}
+//
 
 
 

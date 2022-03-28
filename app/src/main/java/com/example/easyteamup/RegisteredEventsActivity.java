@@ -31,37 +31,38 @@ public class RegisteredEventsActivity extends AppCompatActivity {
                 startActivity(new Intent(RegisteredEventsActivity.this, ManageEventActivity.class));
             }
         });
-
-        readData (list-> {
-            if (registeredEventsList.size() != buf.size()) {
-                addData();
-            }
-        });
-
     }
 
-    private void readData(FirestoreCallback firestoreCallback) {
-        db.collection("RegisteredEvents").whereEqualTo("participants", currentUser.getUID())
-                .get().addOnCompleteListener(task -> {
-            if (task.isSuccessful()) {
-                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                    // System.out.println(document.getId() + "=> " + document.getData());
-                    buf.add(document.toObject(Event.class));
-                }
-                firestoreCallback.onCallback(registeredEventsList);
-            } else {
-                System.out.println("Error getting documents: " + task.getException());
-            }
-        });
-    }
-
-    private void addData() {
-        System.out.println(buf.size());
-        registeredEventsList.addAll(0, buf);
-        // receivedAdapter.notifyItemRangeInserted(0, buf,size());
-    }
-
-    private interface FirestoreCallback {
-        void onCallback(ArrayList<Event> list);
-    }
+//        readData (list-> {
+//            if (registeredEventsList.size() != buf.size()) {
+//                addData();
+//            }
+//        });
+//
+//    }
+//
+//    private void readData(FirestoreCallback firestoreCallback) {
+//        db.collection("RegisteredEvents").whereEqualTo("participants", currentUser.getUID())
+//                .get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+//                    // System.out.println(document.getId() + "=> " + document.getData());
+//                    buf.add(document.toObject(Event.class));
+//                }
+//                firestoreCallback.onCallback(registeredEventsList);
+//            } else {
+//                System.out.println("Error getting documents: " + task.getException());
+//            }
+//        });
+//    }
+//
+//    private void addData() {
+//        System.out.println(buf.size());
+//        registeredEventsList.addAll(0, buf);
+//        // receivedAdapter.notifyItemRangeInserted(0, buf,size());
+//    }
+//
+//    private interface FirestoreCallback {
+//        void onCallback(ArrayList<Event> list);
+//    }
 }
