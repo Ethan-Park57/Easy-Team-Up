@@ -56,8 +56,8 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_register);
         user = FirebaseAuth.getInstance().getCurrentUser();
 
-        profilePic = findViewById(R.id.image_view);
-        changeProfilePic = findViewById(R.id.change_profile_pic);
+//        profilePic = findViewById(R.id.image_view);
+//        changeProfilePic = findViewById(R.id.change_profile_pic);
         firestore = FirebaseFirestore.getInstance();
         storageReference = FirebaseStorage.getInstance().getReference();
 
@@ -70,13 +70,14 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
 //        });
 
 
-        changeProfilePic.setOnClickListener(new View.OnClickListener(){
-          @Override
-          public void onClick(View view){
-              Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-              startActivityForResult(openGallery, 1);
-          }
-        });
+
+//        changeProfilePic.setOnClickListener(new View.OnClickListener(){
+//          @Override
+//          public void onClick(View view){
+//              Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+//              startActivityForResult(openGallery, 1);
+//          }
+//        });
 
          emailText = (EditText) findViewById(R.id.register_email);
          passwordText = (EditText) findViewById(R.id.register_password);
@@ -160,7 +161,6 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
                             .setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/easyteamup-3c633.appspot.com/o/users%2F25Xn74CpUScPvJonjaD6MDUndhp2%2FblankPic.jpg?alt=media&token=b30ce3a1-452b-48e8-bf64-e1f072fbea85"))
                             .build();
 
-                    System.out.println("display name!!!!!!!!!!!! " + profileUpdates.getDisplayName());
 
                     user.updateProfile(profileUpdates)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
@@ -174,26 +174,23 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
 
 
 
+                    String  userEmail = emailText.getText().toString();
+                    String  userPassword = passwordText.getText().toString();
+
+                    System.out.println("useremail: " + userEmail);
+                    System.out.println("userName: " + userName);
+                    System.out.println("userPassword: " + userPassword);
 
 
+                    Map<String, Object> data = new HashMap<>();
+                    data.put("userEmail", userEmail);
+                    data.put("userName", userName);
+                    data.put("userPassword", userPassword);
+                    data.put("hostID", auth.getCurrentUser().getUid());
+                    System.out.println("USer id: " + auth.getCurrentUser().getUid());
+                    String id = auth.getCurrentUser().getUid();
 
-//                    String  userEmail = emailText.getText().toString();
-//                    String  userPassword = passwordText.getText().toString();
-//
-//                    System.out.println("useremail: " + userEmail);
-//                    System.out.println("userName: " + userName);
-//                    System.out.println("userPassword: " + userPassword);
-//
-//
-//                    Map<String, Object> data = new HashMap<>();
-//                    data.put("userEmail", userEmail);
-//                    data.put("userName", userName);
-//                    data.put("userPassword", userPassword);
-//                    data.put("hostID", auth.getCurrentUser().getUid());
-//                    System.out.println("USer id: " + auth.getCurrentUser().getUid());
-//                    String id = auth.getCurrentUser().getUid();
-//
-//                    db.collection("users").document(id).set(data);
+                    db.collection("users").document(id).set(data);
                     Toast.makeText(RegisterActivity.this, "Succesfuly registered user. Welcome!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, ListViewActivity.class));
                 }else{
