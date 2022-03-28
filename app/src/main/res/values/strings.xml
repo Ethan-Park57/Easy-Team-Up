@@ -3,6 +3,10 @@
     <string name="title_events">Events</string>
     <string name="title_create">Create</string>
     <string name="title_manage">Manage</string>
+    <string name="events_page">events_page</string>
+    <string name="create_event_page">create_event_page</string>
+    <string name="manage_event_page">manage_event_page</string>
+    <string name="profile_page">profile_page</string>
 
     <string-array name="type_array">
         <item>Sports</item>
