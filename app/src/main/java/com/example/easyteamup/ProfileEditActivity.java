@@ -38,6 +38,7 @@ public class ProfileEditActivity extends AppCompatActivity {
     EditText changeNameInput;
     EditText changePasswordInput;
     private static Uri newURI;
+    private static boolean changed = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,21 +108,22 @@ public class ProfileEditActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 String newPassword = changePasswordInput.getText().toString();
-                user.updatePassword(newPassword)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("tag", "User password updated.");
+                if(!newPassword.isEmpty()){
+                    user.updatePassword(newPassword)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("tag", "User password updated.");
+                                    }
                                 }
-                            }
-                        });
+                            });
+                }
                 newName = changeNameInput.getText().toString();
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                         .setDisplayName(newName)
                         .build();
 
-                newURI = pictureURI;
                 user.updateProfile(profileUpdates)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -134,6 +136,7 @@ public class ProfileEditActivity extends AppCompatActivity {
                 UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
                         .setPhotoUri(Uri.parse(pictureURI.toString()))
                         .build();
+                newURI = pictureURI;
                 startActivity(new Intent(ProfileEditActivity.this, ProfileActivity.class));
             }
         });
@@ -154,6 +157,7 @@ public class ProfileEditActivity extends AppCompatActivity {
         if(requestCode == 1){
             if(resultCode == Activity.RESULT_OK){
                 pictureURI = data.getData();
+                changed = true;
                 profilePic.setImageURI(pictureURI);
                 uploadtoFB(pictureURI);
             }
@@ -190,5 +194,9 @@ public class ProfileEditActivity extends AppCompatActivity {
 
     public static Uri getURI(){
         return newURI;
+    }
+
+    public static boolean getIsChanged(){
+        return changed;
     }
 }

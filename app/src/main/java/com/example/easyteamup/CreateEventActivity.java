@@ -49,6 +49,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     boolean isPrivate = false;
     protected BottomNavigationView navigationView;
     FirebaseAuth auth;
+    int proposeTimesCount = 0;
 
 
 
@@ -56,6 +57,8 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     Set<String> users = new HashSet<>();
 
     ArrayList<Date> proposedTimes = new ArrayList<>();
+    ArrayList<Integer> proposedTimesIndexes = new ArrayList<>();
+
 
     public void showUserNotFoundAlert(String str){
         System.out.println("made it in showAlertNoUserFound");
@@ -151,7 +154,11 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         Button proposedTimesButton = (Button) findViewById(R.id.propose_times_button);
         proposedTimesButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                showDateTimePickerProposed();
+                if(proposeTimesCount >= 3){
+                    Toast.makeText(CreateEventActivity.this, "You can only propose 3 times", Toast.LENGTH_SHORT).show();
+                }else{
+                    showDateTimePickerProposed();
+                }
             }
         });
 
@@ -198,6 +205,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 data.put("dueTime", deadLinedate.getTime());
                 data.put("proposedTimes", proposedTimes);
                 data.put("hostID", auth.getCurrentUser().getUid());
+                data.put("proposedTimesIndexes", proposedTimesIndexes);
 
 
                 db.collection("events").document(id).set(data);
@@ -277,6 +285,10 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                         Log.v("tag", "Time: " + proposedDate.getTime());
                         proposedTime = proposedDate;
                         proposedTimes.add(proposedTime.getTime());
+                        proposedTimesIndexes.add(0);
+                        proposeTimesCount++;
+                        Toast.makeText(CreateEventActivity.this, "Succesfuly added the proposed time!", Toast.LENGTH_SHORT).show();
+
                     }
                 }, proposedDate.get(Calendar.HOUR_OF_DAY), proposedDate.get(Calendar.MINUTE), false).show();
             }

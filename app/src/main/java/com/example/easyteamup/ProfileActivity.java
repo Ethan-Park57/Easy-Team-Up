@@ -47,6 +47,7 @@ public class ProfileActivity extends AppCompatActivity {
     Uri pictureURI;
     String newName;
     Uri newURI;
+    boolean picChanged;
 
 
     @Override
@@ -67,19 +68,25 @@ public class ProfileActivity extends AppCompatActivity {
 
         newName = ProfileEditActivity.getNewName();
         newURI = ProfileEditActivity.getURI();
-        if(newName == null){
-            emailText.setText(user.getEmail());
-            nameText.setText(user.getDisplayName());
-        }else{
-            emailText.setText(user.getEmail());
+        picChanged = ProfileEditActivity.getIsChanged();
+        System.out.println("newURI: " + newURI);
+        if(picChanged && newName != null){
+            profilePic.setImageURI(newURI);
             nameText.setText(newName);
-            if(newURI != null){
-                profilePic.setImageURI(newURI);
-            }
+            emailText.setText(user.getEmail());
+            System.out.println("if picture is changed and name is not changed" + user.getDisplayName());
+        } else if(newName != null && !picChanged){
+            profilePic.setImageURI(newURI);
+            nameText.setText(newName);
+            emailText.setText(user.getEmail());
+            System.out.println("if picture is not changed but name is changed: " + user.getDisplayName());
+
+        }else if(newName == null && !picChanged){
+            nameText.setText(user.getDisplayName());
+            emailText.setText(user.getEmail());
+            System.out.println("if nothing is changed" + user.getDisplayName());
+
         }
-
-
-
 
         System.out.println("nameText:  " + user.getDisplayName());
         System.out.println("from global:  " + ProfileEditActivity.getNewName());
