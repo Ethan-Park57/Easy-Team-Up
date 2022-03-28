@@ -61,5 +61,25 @@
         app:layout_constraintStart_toStartOf="@+id/register_email"
         app:layout_constraintTop_toBottomOf="@+id/register_email" />
 
+    <ImageView
+        android:id="@+id/image_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="38dp"
+        android:layout_marginTop="46dp"
+        app:layout_constraintStart_toStartOf="@+id/register_password"
+        app:layout_constraintTop_toBottomOf="@+id/register_password"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <Button
+        android:id="@+id/change_profile_pic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="13dp"
+        android:layout_marginBottom="47dp"
+        android:text="Change profile pic"
+        app:layout_constraintBottom_toTopOf="@+id/registration_button"
+        app:layout_constraintEnd_toEndOf="@+id/image_view" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

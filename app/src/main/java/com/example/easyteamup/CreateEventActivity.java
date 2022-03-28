@@ -8,6 +8,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -24,6 +25,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -43,6 +47,10 @@ import java.util.stream.Stream;
 public class CreateEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     boolean isPrivate = false;
+    protected BottomNavigationView navigationView;
+    FirebaseAuth auth;
+
+
 
     List<String> types = Arrays.asList("Sports", "Academic", "Social", "Food/Drink", "Other");
     Set<String> users = new HashSet<>();
@@ -77,6 +85,8 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_event);
+        auth = FirebaseAuth.getInstance();
+
 
         // Get all Users from database for search function
         db.collection("users")
@@ -105,7 +115,6 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         CheckBox isPrivateCheckBox = (CheckBox) findViewById(R.id.is_private_check_box);
         EditText eventInviteesInput = (EditText) findViewById(R.id.invite_list_text);
         EditText eventLocationInput = (EditText) findViewById(R.id.event_location_text);
-        EditText eventHostInput = (EditText) findViewById(R.id.host_id_text);
 
         // invite users
         Button inviteUsersButton = (Button) findViewById(R.id.invite_users_button);
@@ -123,7 +132,9 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                         showUserNotFoundAlert(eventInviteesList.get(i) + " doesn't exist");
                     }
                     if(!isPrivate){
-                        showUserNotFoundAlert("Your event must be prviate to invite users.");
+                        showUserNotFoundAlert("Your event must be pricatete to invite users.");
+                    }else{
+                        Toast.makeText(CreateEventActivity.this, "all users exist. create the event to send them an invitiation.", Toast.LENGTH_SHORT).show();
                     }
                 }
             }
@@ -175,9 +186,6 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 String eventLocation = eventLocationInput.getText().toString();
                 System.out.println("Location: " + eventLocation);
 
-                String eventHostID = eventHostInput.getText().toString();
-                System.out.println("evenHostID: " + eventHostID);
-
                 Map<String, Object> data = new HashMap<>();
                 data.put("eventDescription", eventDescription);
                 data.put("eventName", eventName);
@@ -189,7 +197,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 data.put("location", eventLocation);
                 data.put("dueTime", deadLinedate.getTime());
                 data.put("proposedTimes", proposedTimes);
-                data.put("hostID", eventHostID);
+                data.put("hostID", auth.getCurrentUser().getUid());
 
 
                 db.collection("events").document(id).set(data);
@@ -197,11 +205,39 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 startActivity(new Intent(CreateEventActivity.this, ManageEventActivity.class));
             }
         });
-
+        navigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
+        navigationView.setSelectedItemId(R.id.create_event_page);
+        navigationView.setOnItemSelectedListener(new NavigationBarView.OnItemSelectedListener(){
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch(item.getItemId()){
+                    case R.id.events_page:
+                        startActivity(new Intent(getApplicationContext(),ListViewActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.create_event_page:
+                        startActivity(new Intent(getApplicationContext(),CreateEventActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.manage_event_page:
+                        startActivity(new Intent(getApplicationContext(),ManageEventActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                    case R.id.profile_page:
+                        startActivity(new Intent(getApplicationContext(),ProfileActivity.class));
+                        overridePendingTransition(0,0);
+                        return true;
+                }
+                return false;
+            }
+        });
 
 
 
     }
+
+
+
     Calendar deadLinedate;
     public void showDateTimePicker() {
         final Calendar currentDate = Calendar.getInstance();
