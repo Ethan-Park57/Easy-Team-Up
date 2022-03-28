@@ -1,5 +1,6 @@
 package com.example.easyteamup;
 
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -12,6 +13,8 @@ import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.easyteamup.R;
 import com.example.easyteamup.databinding.ActivityMainBinding;
@@ -21,19 +24,31 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
+import com.google.type.DateTime;
 
+import java.util.ArrayList;
 import java.util.Objects;
 
 
 public class SentEventsActivity extends AppCompatActivity {
-    private ActivityMainBinding binding;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ArrayList<Event> sentEventsList = new ArrayList<>();
+    ArrayList<Event> buf = new ArrayList<>();
+    RecyclerView recyclerView;
+    SentEventsRecyclerViewAdapter sentAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_sent);
 
+//        for (int i = 1; i <= 10; i++) {
+//            Event curr = new Event();
+//            curr.setEventName(Integer.toString(i));
+//            curr.setHostID(310904);
+//            curr.setLocation("location " + Integer.toString(i));
+//            db.collection("SentEvents").add(curr);
+//        }
 
         Button backButton = (Button) findViewById(R.id.back_button);
         backButton.setOnClickListener(new View.OnClickListener() {
@@ -42,6 +57,51 @@ public class SentEventsActivity extends AppCompatActivity {
                 startActivity(new Intent(SentEventsActivity.this, ManageEventActivity.class));
             }
         });
+
+        // set up recyclerview and adapter
+        recyclerView = findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+        sentAdapter = new SentEventsRecyclerViewAdapter(this, sentEventsList);
+        recyclerView.setAdapter(sentAdapter);
+
+        readData(list -> {
+            if (sentEventsList.size() != buf.size()) {
+                addData();
+            }
+        });
+
+        System.out.println("DONE");
+    }
+
+    private void readData(FirestoreCallback firestoreCallback) {
+        db.collection("SentEvents").whereEqualTo("hostID", 310904)
+            .get().addOnCompleteListener(task -> {
+                if (task.isSuccessful()) {
+                    for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                        // System.out.println(document.getId() + "=> " + document.getData());
+                        buf.add(document.toObject(Event.class));
+                    }
+                    firestoreCallback.onCallback(sentEventsList);
+                } else {
+                    System.out.println("Error getting documents: " + task.getException());
+                }
+            });
+    }
+
+    private void addData() {
+        System.out.println(buf.size());
+        sentEventsList.addAll(0, buf);
+        sentAdapter.notifyItemRangeInserted(0, buf.size());
+    }
+
+    private interface FirestoreCallback {
+        void onCallback(ArrayList<Event> list);
+    }
+}
+
+
+
 
 //        binding = ActivityMainBinding.inflate(getLayoutInflater());
 //        setContentView(binding.getRoot());
@@ -73,5 +133,20 @@ public class SentEventsActivity extends AppCompatActivity {
 //                    }
 //                });
 //        System.out.println("Out");
-    }
-}
+
+
+//ArrayList<Merchant> merchantsList = new ArrayList<Merchant>();
+//db.collection("Merchants")
+//        .get()
+//        .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot document : task.getResult()) {
+//                        System.out.println(domcuent.getID() + " => " + document.getData());
+//                    }
+//                } else {
+//                    Log.d(TAG, "Error getting documents: ", task.getException());
+//                }
+//            }
+//        });

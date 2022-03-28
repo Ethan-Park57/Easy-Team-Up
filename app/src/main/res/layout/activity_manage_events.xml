@@ -7,31 +7,31 @@
 
     <Button
         android:id="@+id/to_sent_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="6dp"
-        android:layout_marginBottom="56dp"
-        android:text="Sent Invitations"
-        app:layout_constraintBottom_toTopOf="@+id/to_registered_button"
-        app:layout_constraintStart_toStartOf="@+id/to_registered_button" />
+        android:layout_width="178dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="117dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/button_to_sent_events"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <Button
         android:id="@+id/to_registered_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="1dp"
-        android:layout_marginBottom="61dp"
-        android:text="Registered Events"
-        app:layout_constraintBottom_toTopOf="@+id/to_received_button"
-        app:layout_constraintStart_toStartOf="@+id/to_received_button" />
+        android:layout_marginStart="110dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/button_to_registered_events"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/to_sent_button" />
 
     <Button
         android:id="@+id/to_received_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="125dp"
-        android:layout_marginBottom="250dp"
-        android:text="Received Invitations"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_marginStart="120dp"
+        android:layout_marginTop="100dp"
+        android:text="@string/button_to_received_events"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/to_registered_button" />
 </androidx.constraintlayout.widget.ConstraintLayout>
