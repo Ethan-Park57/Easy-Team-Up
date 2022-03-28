@@ -6,6 +6,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
 import android.text.TextUtils;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -26,11 +27,15 @@ import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.auth.UserProfileChangeRequest;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.squareup.picasso.Picasso;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class RegisterActivity  extends AppCompatActivity implements View.OnClickListener {
     Button registrationbutton;
@@ -41,11 +46,15 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
     ImageView profilePic;
     Button changeProfilePic;
     StorageReference storageReference;
-
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    EditText emailText;
+    EditText passwordText;
+    EditText nameText;
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
+        user = FirebaseAuth.getInstance().getCurrentUser();
 
         profilePic = findViewById(R.id.image_view);
         changeProfilePic = findViewById(R.id.change_profile_pic);
@@ -61,17 +70,18 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
 //        });
 
 
-//        changeProfilePic.setOnClickListener(new View.OnClickListener(){
-//          @Override
-//          public void onClick(View view){
-//              Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//              startActivityForResult(openGallery, 1);
-//          }
-//        });
+        changeProfilePic.setOnClickListener(new View.OnClickListener(){
+          @Override
+          public void onClick(View view){
+              Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+              startActivityForResult(openGallery, 1);
+          }
+        });
 
-        EditText emailText = (EditText) findViewById(R.id.register_email);
-        EditText passwordText = (EditText) findViewById(R.id.register_password);
-        auth = FirebaseAuth.getInstance();
+         emailText = (EditText) findViewById(R.id.register_email);
+         passwordText = (EditText) findViewById(R.id.register_password);
+         nameText = (EditText) findViewById(R.id.register_name);
+         auth = FirebaseAuth.getInstance();
 
 
         Button backButton = (Button) findViewById(R.id.back_button);
@@ -143,6 +153,47 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
             @Override
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
+                    String  userName = nameText.getText().toString();
+
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(userName)
+                            .setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/easyteamup-3c633.appspot.com/o/users%2F25Xn74CpUScPvJonjaD6MDUndhp2%2FblankPic.jpg?alt=media&token=b30ce3a1-452b-48e8-bf64-e1f072fbea85"))
+                            .build();
+
+                    System.out.println("display name!!!!!!!!!!!! " + profileUpdates.getDisplayName());
+
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("tag", "User profile updated.");
+                                    }
+                                }
+                            });
+
+
+
+
+
+
+//                    String  userEmail = emailText.getText().toString();
+//                    String  userPassword = passwordText.getText().toString();
+//
+//                    System.out.println("useremail: " + userEmail);
+//                    System.out.println("userName: " + userName);
+//                    System.out.println("userPassword: " + userPassword);
+//
+//
+//                    Map<String, Object> data = new HashMap<>();
+//                    data.put("userEmail", userEmail);
+//                    data.put("userName", userName);
+//                    data.put("userPassword", userPassword);
+//                    data.put("hostID", auth.getCurrentUser().getUid());
+//                    System.out.println("USer id: " + auth.getCurrentUser().getUid());
+//                    String id = auth.getCurrentUser().getUid();
+//
+//                    db.collection("users").document(id).set(data);
                     Toast.makeText(RegisterActivity.this, "Succesfuly registered user. Welcome!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, ListViewActivity.class));
                 }else{

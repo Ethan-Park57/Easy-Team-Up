@@ -7,7 +7,16 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.firestore.FirebaseFirestore;
+import com.google.firebase.firestore.QueryDocumentSnapshot;
+
+import java.util.ArrayList;
+import java.util.Objects;
+
 public class RegisteredEventsActivity extends AppCompatActivity {
+    FirebaseFirestore db = FirebaseFirestore.getInstance();
+    ArrayList<Event> buf = new ArrayList<>();
+    ArrayList<Event> registeredEventsList = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,5 +32,36 @@ public class RegisteredEventsActivity extends AppCompatActivity {
             }
         });
 
+//        readData (list-> {
+//            if (registeredEventsList.size() != buf.size()) {
+//                addData();
+//            }
+//        });
+
+    }
+
+//    private void readData(FirestoreCallback firestoreCallback) {
+//        db.collection("RegisteredEvents").whereEqualTo("participants", currentUser.getUID())
+//                .get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+//                    // System.out.println(document.getId() + "=> " + document.getData());
+//                    buf.add(document.toObject(Event.class));
+//                }
+//                firestoreCallback.onCallback(registeredEventsList);
+//            } else {
+//                System.out.println("Error getting documents: " + task.getException());
+//            }
+//        });
+//    }
+
+    private void addData() {
+        System.out.println(buf.size());
+        registeredEventsList.addAll(0, buf);
+        // receivedAdapter.notifyItemRangeInserted(0, buf,size());
+    }
+
+    private interface FirestoreCallback {
+        void onCallback(ArrayList<Event> list);
     }
 }

@@ -2,6 +2,7 @@ package com.example.easyteamup;
 
 import com.google.type.DateTime;
 
+import java.util.ArrayList;
 import java.util.Map;
 import java.util.Set;
 
@@ -13,12 +14,18 @@ public class Event {
     DateTime confirmedTime;
     String description;
     boolean isTimeSet;
-    Map<DateTime, Integer> proposedTimes;
+    //    Map<DateTime, Integer> proposedTimes;
+//    ArrayList<DateTime> proposedTimesList;
     boolean isPrivateEvent;
     DateTime dueTime;
     String location;
     Set<Integer> participants;
     Set<Integer> invitees;
+
+//    public ArrayList<DateTime> getProposedTimesList() { return proposedTimesList; }
+//    public void setProposedTimesList(ArrayList<DateTime> aList) {
+//        this.proposedTimesList = aList;
+//    }
 
     public int getEventID() {
         return eventID;
@@ -68,13 +75,13 @@ public class Event {
         isTimeSet = timeSet;
     }
 
-    public Map<DateTime, Integer> getProposedTimes() {
-        return proposedTimes;
-    }
-
-    public void setProposedTimes(Map<DateTime, Integer> proposedTimes) {
-        this.proposedTimes = proposedTimes;
-    }
+//    public Map<DateTime, Integer> getProposedTimes() {
+//        return proposedTimes;
+//    }
+//
+//    public void setProposedTimes(Map<DateTime, Integer> proposedTimes) {
+//        this.proposedTimes = proposedTimes;
+//    }
 
     public boolean isPrivateEvent() {
         return isPrivateEvent;

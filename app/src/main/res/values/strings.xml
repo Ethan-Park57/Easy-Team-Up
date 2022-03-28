@@ -7,6 +7,10 @@
     <string name="create_event_page">create_event_page</string>
     <string name="manage_event_page">manage_event_page</string>
     <string name="profile_page">profile_page</string>
+    <string name="button_to_registered_events">Registered Events</string>
+    <string name="button_to_sent_events">Sent Events</string>
+    <string name="button_to_received_events">Received Events</string>
+    <string name="back_button_text">Back</string>
 
     <string-array name="type_array">
         <item>Sports</item>

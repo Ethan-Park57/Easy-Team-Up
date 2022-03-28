@@ -10,9 +10,10 @@
         android:id="@+id/textView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="105dp"
+        android:layout_marginTop="76dp"
         android:text="Register for Easy Team Up"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -20,7 +21,7 @@
         android:id="@+id/registration_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="528dp"
+        android:layout_marginTop="572dp"
         android:text="Register"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.465"
@@ -65,8 +66,8 @@
         android:id="@+id/image_view"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="38dp"
-        android:layout_marginTop="46dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="160dp"
         app:layout_constraintStart_toStartOf="@+id/register_password"
         app:layout_constraintTop_toBottomOf="@+id/register_password"
         tools:srcCompat="@tools:sample/avatars" />
@@ -75,11 +76,23 @@
         android:id="@+id/change_profile_pic"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="13dp"
-        android:layout_marginBottom="47dp"
+        android:layout_marginEnd="4dp"
+        android:layout_marginBottom="4dp"
         android:text="Change profile pic"
         app:layout_constraintBottom_toTopOf="@+id/registration_button"
         app:layout_constraintEnd_toEndOf="@+id/image_view" />
+
+    <EditText
+        android:id="@+id/register_name"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:layout_marginEnd="4dp"
+        android:ems="10"
+        android:hint="Name"
+        android:inputType="textPersonName"
+        app:layout_constraintEnd_toEndOf="@+id/register_password"
+        app:layout_constraintTop_toBottomOf="@+id/register_password" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
