@@ -1,6 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.easyteamup">
+    package="com.example.easyteamup" >
+
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.INTERNET" />
+
+    <permission
+        android:name="your_pakage_name.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
 
     <application
         android:allowBackup="true"
@@ -8,76 +18,63 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EasyTeamUp">
-
-
+        android:theme="@style/Theme.EasyTeamUp" >
 
         <activity
-            android:exported="true"
-            android:name=".WelcomeActivity">
+            android:name=".WelcomeActivity"
+            android:exported="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
+            android:exported="true" >
         </activity>
-
+        <activity android:name=".LoginActivity" >
+        </activity>
+        <activity android:name=".RegisterActivity" >
+        </activity>
         <activity
-            android:name=".LoginActivity">
+            android:name=".CreateEventActivity"
+            android:exported="true" >
         </activity>
-
         <activity
-            android:name=".RegisterActivity">
+            android:name=".ManageEventActivity"
+            android:exported="true" >
         </activity>
-
+        <activity android:name=".SentEventsActivity" >
+        </activity>
+        <activity android:name=".ReceivedEventsActivity" >
+        </activity>
+        <activity android:name=".RegisteredEventsActivity" >
+        </activity>
         <activity
-            android:exported="true"
-            android:name=".CreateEventActivity">
+            android:name=".ListViewActivity"
+            android:exported="true" >
         </activity>
-
-
         <activity
-            android:exported="true"
-            android:name=".ManageEventActivity">
+            android:name=".MapViewActivity"
+            android:exported="true" >
         </activity>
-
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="${MAPS_API_KEY}" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
+        <activity android:name=".ProfileEditActivity" >
+        </activity>
         <activity
-            android:name=".SentEventsActivity">
+            android:name=".ProfileActivity"
+            android:exported="true" >
         </activity>
-
         <activity
-            android:name=".ReceivedEventsActivity">
+            android:name=".EditEventActivity"
+            android:exported="true" >
         </activity>
-
-        <activity
-            android:name=".RegisteredEventsActivity">
-        </activity>
-
-        <activity
-            android:exported="true"
-            android:name=".ListViewActivity">
-        </activity>
-
-
-        <activity
-            android:exported="true"
-            android:name=".MapViewActivity">
-        </activity>
-
-        <activity
-            android:name=".ProfileEditActivity">
-        </activity>
-
-        <activity
-            android:exported="true"
-            android:name=".ProfileActivity">
-        </activity>
-
-
     </application>
 
 </manifest>
