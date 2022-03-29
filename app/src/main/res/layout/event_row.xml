@@ -3,7 +3,8 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content"
+    android:id="@+id/events_layout">
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
@@ -17,8 +18,8 @@
 
             <TextView
                 android:id="@+id/event_name_text_view"
-                android:layout_width="472dp"
-                android:layout_height="64dp"
+                android:layout_width="240dp"
+                android:layout_height="53dp"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="10dp"
                 android:text="Name"
@@ -30,10 +31,10 @@
 
             <TextView
                 android:id="@+id/location_text_view"
-                android:layout_width="155dp"
-                android:layout_height="33dp"
-                android:layout_marginStart="22dp"
-                android:layout_marginTop="43dp"
+                android:layout_width="112dp"
+                android:layout_height="34dp"
+                android:layout_marginStart="4dp"
+                android:layout_marginTop="28dp"
                 android:text="Location"
                 android:textAlignment="viewStart"
                 android:textSize="25sp"

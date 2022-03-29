@@ -1,23 +1,26 @@
 package com.example.easyteamup;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
+import androidx.recyclerview.widget.RecyclerView;
+
 import android.content.Context;
 import android.content.Intent;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.recyclerview.widget.RecyclerView;
-
 import java.util.ArrayList;
 
-public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEventsRecyclerViewAdapter.MyViewHolder> {
+public class ListViewRecyclerViewAdapter extends RecyclerView.Adapter<ListViewRecyclerViewAdapter.MyViewHolder> {
+
     private ArrayList<Event> data;
     private Context context;
 
-    public SentEventsRecyclerViewAdapter(Context ct, ArrayList<Event> data) {
+    public ListViewRecyclerViewAdapter(Context ct, ArrayList<Event> data) {
         context = ct;
         this.data = data;
     }
@@ -25,6 +28,12 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
     public void setData(ArrayList<Event> data) {
         this.data = data;
     }
+
+//    @Override
+//    protected void onCreate(Bundle savedInstanceState) {
+//        super.onCreate(savedInstanceState);
+//        setContentView(R.layout.activity_list_view_recycler_view_adapter);
+//    }
 
     @NonNull
     @Override
@@ -39,13 +48,11 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
         holder.eventNameTextView.setText(data.get(position).getEventName());
         holder.locationTextView.setText(data.get(position).getLocation());
 
-        holder.sent_events_layout.setOnClickListener(new View.OnClickListener() {
+        holder.list_events_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // !!!!!!!!!!!!!!!!!!!!!!!
-                // !!!!!!!!!!!!!!!!!!!!!!!
-                // !!!!!!!!!!!!!!!!!!!!!!!
-                Intent intent = new Intent(context, SentDetailsActivity.class);
+                Intent intent = new Intent(context, EventDetailsActivity.class);
+                intent.putExtra("id", data.get(position).getEventID());
                 intent.putExtra("name", data.get(position).getEventName());
                 intent.putExtra("location", data.get(position).getLocation());
                 intent.putExtra("description", data.get(position).getDescription());
@@ -54,11 +61,11 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
                 System.out.println("proposed time size is " + data.get(position).getProposedTimes().size());
 
                 intent.putExtra("proposed1", data.get(position).getProposedTimes().get(0).toString());
-                if (data.size() > 1) {
+                if (data.get(position).getProposedTimes().size() > 1) {
                     System.out.println(data.get(position).getProposedTimes().get(1).toString());
                     intent.putExtra("proposed2", data.get(position).getProposedTimes().get(1).toString());
                 }
-                if (data.size() > 2) {
+                if (data.get(position).getProposedTimes().size() > 2) {
                     System.out.println(data.get(position).getProposedTimes().get(2).toString());
                     intent.putExtra("proposed3", data.get(position).getProposedTimes().get(2).toString());
                 }
@@ -74,13 +81,13 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView eventNameTextView, locationTextView;
-        ConstraintLayout sent_events_layout;
+        ConstraintLayout list_events_layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             eventNameTextView = itemView.findViewById(R.id.event_name_text_view);
             locationTextView = itemView.findViewById(R.id.location_text_view);
-            sent_events_layout = itemView.findViewById(R.id.events_layout);
+            list_events_layout = itemView.findViewById(R.id.events_layout);
         }
     }
 }
