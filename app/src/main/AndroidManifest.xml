@@ -3,7 +3,13 @@
     package="com.example.easyteamup">
 
     <uses-permission android:name="android.permission.INTERNET" />
-
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <permission
+        android:name="your_pakage_name.permission.MAPS_RECEIVE"
+        android:protectionLevel="signature" />
     <application
         android:allowBackup="true"
         android:hardwareAccelerated="false"
@@ -48,6 +54,12 @@
         <activity
             android:name=".MapViewActivity"
             android:exported="true" />
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyABm-K2oYJy7jmJSdpjtavL-xlbQPqbIqE" />
+        <meta-data
+            android:name="com.google.android.gms.version"
+            android:value="@integer/google_play_services_version" />
         <activity android:name=".ProfileEditActivity" />
         <activity
             android:name=".ProfileActivity"
