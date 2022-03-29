@@ -2,82 +2,62 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.easyteamup">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:allowBackup="true"
+        android:hardwareAccelerated="false"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/Theme.EasyTeamUp">
-
-
-
+        android:theme="@style/Theme.EasyTeamUp"
+        android:usesCleartextTraffic="true">
         <activity
-            android:exported="true"
-            android:name=".WelcomeActivity">
+            android:name=".RegisteredDetailsActivity"
+            android:exported="false" />
+        <activity
+            android:name=".ListViewRecyclerViewAdapter"
+            android:exported="false" />
+        <activity
+            android:name=".WelcomeActivity"
+            android:exported="true">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
         <activity
             android:name=".MainActivity"
-            android:exported="true">
-        </activity>
-
+            android:exported="true" />
+        <activity android:name=".LoginActivity" />
+        <activity android:name=".RegisterActivity" />
         <activity
-            android:name=".LoginActivity">
-        </activity>
-
+            android:name=".CreateEventActivity"
+            android:exported="true" />
         <activity
-            android:name=".RegisterActivity">
-        </activity>
-
+            android:name=".ManageEventActivity"
+            android:exported="true" />
+        <activity android:name=".SentEventsActivity" />
+        <activity android:name=".ReceivedEventsActivity" />
+        <activity android:name=".RegisteredEventsActivity" />
         <activity
-            android:exported="true"
-            android:name=".CreateEventActivity">
-        </activity>
-
-
+            android:name=".ListViewActivity"
+            android:exported="true" />
         <activity
-            android:exported="true"
-            android:name=".ManageEventActivity">
-        </activity>
-
+            android:name=".MapViewActivity"
+            android:exported="true" />
+        <activity android:name=".ProfileEditActivity" />
         <activity
-            android:name=".SentEventsActivity">
-        </activity>
-
+            android:name=".ProfileActivity"
+            android:exported="true" />
         <activity
-            android:name=".ReceivedEventsActivity">
-        </activity>
-
+            android:name=".EventDetailsActivity"
+            android:exported="true" />
         <activity
-            android:name=".RegisteredEventsActivity">
-        </activity>
-
-        <activity
-            android:exported="true"
-            android:name=".ListViewActivity">
-        </activity>
-
-
-        <activity
-            android:exported="true"
-            android:name=".MapViewActivity">
-        </activity>
-
-        <activity
-            android:name=".ProfileEditActivity">
-        </activity>
-
-        <activity
-            android:exported="true"
-            android:name=".ProfileActivity">
-        </activity>
-
-
+            android:name=".SentDetailsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
