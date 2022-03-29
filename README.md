@@ -16,3 +16,5 @@ You can also go to the last icon (Profile) and edit details about your profile i
 Put this GoogleMapsAPI key in the local.properties file as "MAPS_API_KEY=AIzaSyABm-K2oYJy7jmJSdpjtavL-xlbQpqbIqe"
 
 You've been added to our Firebase project with your email zhaoxuzh@usc.edu if you think it will be helpful to look at that.
+
+In order to go back from certain screens you may need to use the back button on the bottom of the Pixel 2 device because the NavBar doesn't appear on every screen.
