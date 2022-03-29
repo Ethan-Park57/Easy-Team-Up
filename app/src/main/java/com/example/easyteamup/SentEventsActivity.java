@@ -21,6 +21,8 @@ import com.example.easyteamup.databinding.ActivityMainBinding;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
@@ -62,44 +64,91 @@ public class SentEventsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
-        sentAdapter = new SentEventsRecyclerViewAdapter(this, sentEventsList);
-        recyclerView.setAdapter(sentAdapter);
 
         readData(list -> {
             if (sentEventsList.size() != buf.size()) {
                 addData();
+                System.out.println(sentEventsList.get(0));
+                System.out.println(sentEventsList.get(1));
+                System.out.println(sentEventsList.get(2));
+                System.out.println(sentEventsList.get(3));
+                System.out.println(sentEventsList.get(4));
             }
         });
 
+//        System.out.println("Sent events size: " + sentEventsList.size());
+//        System.out.println("Buffer  size: " + buf.size());
+
+        // readData();
+
+//        readData(list -> {
+//            if (sentEventsList.size() != buf.size()) {
+//                addData();
+//                System.out.println("Sent events size: " + sentEventsList.size());
+//                System.out.println("Buffer  size: " + buf.size());
+//            }
+//        });
+
         System.out.println("DONE");
+    }
+    private void addData() {
+        System.out.println(buf.size());
+        sentEventsList.addAll(0, buf);
+        // sentAdapter.notifyItemRangeInserted(0, buf.size());
     }
 
     private void readData(FirestoreCallback firestoreCallback) {
-        db.collection("SentEvents").whereEqualTo("hostID", 310904)
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
+        System.out.println("ID of clare: " + id);
+
+        db.collection("events").whereEqualTo("hostID", id)
                 .get().addOnCompleteListener(task -> {
             if (task.isSuccessful()) {
                 for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
                     // System.out.println(document.getId() + "=> " + document.getData());
-                    buf.add(document.toObject(Event.class));
+                    sentEventsList.add(document.toObject(Event.class));
+                    System.out.println("Document: !!!!!!!!!" + document);
+                    // buf.add(document.toObject(Event.class));
                 }
-                firestoreCallback.onCallback(sentEventsList);
+                sentAdapter = new SentEventsRecyclerViewAdapter(this, sentEventsList);
+                recyclerView.setAdapter(sentAdapter);
+                // firestoreCallback.onCallback(sentEventsList);
             } else {
                 System.out.println("Error getting documents: " + task.getException());
             }
         });
     }
 
-    private void addData() {
-        System.out.println(buf.size());
-        sentEventsList.addAll(0, buf);
-        sentAdapter.notifyItemRangeInserted(0, buf.size());
-    }
-
     private interface FirestoreCallback {
         void onCallback(ArrayList<Event> list);
     }
 }
+//
 
+//=======
+//                .get().addOnCompleteListener(task -> {
+//            if (task.isSuccessful()) {
+//                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+//                    // System.out.println(document.getId() + "=> " + document.getData());
+//                    sentEventsList.add(document.toObject(Event.class));
+//                    // buf.add(document.toObject(Event.class));
+//                }
+//                sentAdapter = new SentEventsRecyclerViewAdapter(this, sentEventsList);
+//                recyclerView.setAdapter(sentAdapter);
+//                // firestoreCallback.onCallback(sentEventsList);
+//            } else {
+//                System.out.println("Error getting documents: " + task.getException());
+//            }
+//        });
+//>>>>>>> Stashed changes
+//    }
+//
+
+//
+
+//}
+//
 
 
 

@@ -160,8 +160,6 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
                             .setDisplayName(userName)
                             .setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/easyteamup-3c633.appspot.com/o/users%2F25Xn74CpUScPvJonjaD6MDUndhp2%2FblankPic.jpg?alt=media&token=b30ce3a1-452b-48e8-bf64-e1f072fbea85"))
                             .build();
-
-
                     user.updateProfile(profileUpdates)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override

@@ -28,10 +28,12 @@ import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 import com.google.firebase.firestore.QuerySnapshot;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -40,6 +42,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -50,8 +53,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     protected BottomNavigationView navigationView;
     FirebaseAuth auth;
     int proposeTimesCount = 0;
-
-
+    ArrayList<String> inviteesIDs = new ArrayList<>();
 
     List<String> types = Arrays.asList("Sports", "Academic", "Social", "Food/Drink", "Other");
     Set<String> users = new HashSet<>();
@@ -121,24 +123,36 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
         // invite users
         Button inviteUsersButton = (Button) findViewById(R.id.invite_users_button);
+        inviteesIDs.clear();
         inviteUsersButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
                 String eventInvitees = eventInviteesInput.getText().toString();
                 List<String> eventInviteesList = Arrays.asList(eventInvitees.split(",", -1));
                 System.out.println("eventInviteesList: " + eventInviteesList);
                 System.out.println("eventInviteesList Size: " + eventInviteesList.size());
-                for(int i = 0; i < eventInviteesList.size(); i++){
+                for (int i = 0; i < eventInviteesList.size(); i++) {
                     System.out.println("IN FOR LOOPS: eventInviteesList Size: " + eventInviteesList.size());
                     System.out.println("in for loop. current invite is: " + eventInviteesList.get(i));
-                    if(!users.contains(eventInviteesList.get(i))){
-                        System.out.println(eventInviteesList.get(i) + "doesn't exist");
-                        showUserNotFoundAlert(eventInviteesList.get(i) + " doesn't exist");
-                    }
-                    if(!isPrivate){
-                        showUserNotFoundAlert("Your event must be pricatete to invite users.");
-                    }else{
-                        Toast.makeText(CreateEventActivity.this, "all users exist. create the event to send them an invitiation.", Toast.LENGTH_SHORT).show();
-                    }
+                    int finalI = i;
+                    db.collection("users")
+                            .whereEqualTo("userEmail", eventInviteesList.get(i))
+                            .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+                        @Override
+                        public void onComplete(@NonNull Task<QuerySnapshot> task) {
+                            if (task.isSuccessful()) {
+                                if (task.getResult().isEmpty()) {
+                                    System.out.println(eventInviteesList.get(finalI) + "doesn't exist");
+                                    showUserNotFoundAlert(eventInviteesList.get(finalI) + " doesn't exist");
+                                }
+                                else{
+                                    for (DocumentSnapshot querySnapshot : task.getResult().getDocuments()) {
+                                        inviteesIDs.add(querySnapshot.getId());
+                                    }
+                                    Toast.makeText(CreateEventActivity.this, "all users exist. create the event to send them an invitiation.", Toast.LENGTH_SHORT).show();
+                                }
+                            }
+                        }
+                    });
                 }
             }
         });
@@ -184,28 +198,31 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 String eventDescription = eventDescriptionInput.getText().toString();
                 System.out.println("Event description: " + eventDescription);
 
-                String eventInvitees = eventInviteesInput.getText().toString();
-                System.out.println("Event invitees: " + eventInvitees);
+                ArrayList<String> invitees = new ArrayList<>(Arrays.asList(eventInviteesInput.getText().toString().split("\\s*,\\s*")));
+                System.out.println("Event invitees: " + invitees);
 
                 String eventType = spinner.getSelectedItem().toString();
-                System.out.println("Selected Item: " + eventInvitees);
+                System.out.println("Selected Item: " + eventType);
 
                 String eventLocation = eventLocationInput.getText().toString();
                 System.out.println("Location: " + eventLocation);
 
+                ArrayList<String> ps = new ArrayList<>();
+                ps.add(auth.getCurrentUser().getUid());
+
                 Map<String, Object> data = new HashMap<>();
-                data.put("eventDescription", eventDescription);
+                String id =  db.collection("events").document().getId();
+                data.put("participants", ps);
+                data.put("eventID", id);
+                data.put("description", eventDescription);
                 data.put("eventName", eventName);
-                String id = db.collection("events").document().getId();
-                data.put("EventID", id);
-                data.put("isPrivate", isPrivate);
-                data.put("eventInvitees", eventInvitees);
-                data.put("eventType", eventType);
+                data.put("isPrivateEvent", isPrivate);
+                data.put("invitees", inviteesIDs);
                 data.put("location", eventLocation);
                 data.put("dueTime", deadLinedate.getTime());
                 data.put("proposedTimes", proposedTimes);
                 data.put("hostID", auth.getCurrentUser().getUid());
-                data.put("proposedTimesIndexes", proposedTimesIndexes);
+                data.put("proposedTimesVotes", proposedTimesIndexes);
 
 
                 db.collection("events").document(id).set(data);
@@ -261,6 +278,8 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                         deadLinedate.set(Calendar.HOUR_OF_DAY, hourOfDay);
                         deadLinedate.set(Calendar.MINUTE, minute);
                         Log.v("tag", "Time: " + deadLinedate.getTime());
+                        Toast.makeText(CreateEventActivity.this, "Succesfuly added deadline for the event!", Toast.LENGTH_SHORT).show();
+
                     }
                 }, deadLinedate.get(Calendar.HOUR_OF_DAY), deadLinedate.get(Calendar.MINUTE), false).show();
             }

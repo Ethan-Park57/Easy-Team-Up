@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <TextView
+        android:id="@+id/event_name_text_view_details_page"
+        android:layout_width="wrap_content"
+        android:layout_height="44dp"
+        android:layout_marginStart="102dp"
+        android:layout_marginTop="32dp"
+        android:layout_marginEnd="102dp"
+        android:text="Event Name"
+        android:textAlignment="center"
+        android:textSize="30sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.488"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/event_location_text_view"
+        android:layout_width="188dp"
+        android:layout_height="20dp"
+        android:layout_marginStart="108dp"
+        android:layout_marginTop="16dp"
+        android:text="Location"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_name_text_view_details_page" />
+
+    <RadioButton
+        android:id="@+id/proposed_time_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:text="RadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/proposed_time1"
+        tools:text="Proposed Time 2" />
+
+    <RadioButton
+        android:id="@+id/proposed_time1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:layout_marginTop="8dp"
+        android:text="RadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/proposed_times_text_view"
+        tools:text="Proposed Time 1" />
+
+    <RadioButton
+        android:id="@+id/proposed_time_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="136dp"
+        android:text="RadioButton"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/proposed_time_2"
+        tools:text="Proposed Time 3" />
+
+    <TextView
+        android:id="@+id/proposed_times_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="152dp"
+        android:layout_marginTop="4dp"
+        android:text="Proposed Times"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/description_text_view" />
+
+    <TextView
+        android:id="@+id/due_time_label_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="158dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="14dp"
+        android:text="Due Time:"
+        app:layout_constraintEnd_toStartOf="@+id/due_time"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/proposed_time_3" />
+
+    <TextView
+        android:id="@+id/due_time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="14dp"
+        android:layout_marginTop="4dp"
+        android:layout_marginEnd="124dp"
+        android:text="0:00 AM"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/due_time_label_text_view"
+        app:layout_constraintTop_toBottomOf="@+id/proposed_time_3" />
+
+    <TextView
+        android:id="@+id/description_text_view"
+        android:layout_width="335dp"
+        android:layout_height="220dp"
+        android:layout_marginStart="36dp"
+        android:layout_marginTop="8dp"
+        android:text="Description"
+        android:textAlignment="center"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/event_location_text_view" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

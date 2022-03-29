@@ -1,37 +1,53 @@
 package com.example.easyteamup;
 
+import com.google.firebase.Timestamp;
 import com.google.type.DateTime;
 
+import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.Map;
 import java.util.Set;
 
 public class Event {
 
-    int eventID;
+    String eventID;
     String eventName;
-    int hostID;
-    DateTime confirmedTime;
+    String hostID;
+    Timestamp confirmedTime;
     String description;
     boolean isTimeSet;
-    //    Map<DateTime, Integer> proposedTimes;
-//    ArrayList<DateTime> proposedTimesList;
+
+    public ArrayList<Date> getProposedTimes() {
+        return proposedTimes;
+    }
+
+    public void setProposedTimes(ArrayList<Date> proposedTimes) {
+        this.proposedTimes = proposedTimes;
+    }
+
+    ArrayList<Date> proposedTimes;
+    ArrayList<Integer> proposedTimesVotes;
+
+    public boolean isPrivateEvent() {
+        return isPrivateEvent;
+    }
+
+    public void setPrivateEvent(boolean privateEvent) {
+        isPrivateEvent = privateEvent;
+    }
+
     boolean isPrivateEvent;
-    DateTime dueTime;
+    Timestamp dueTime;
     String location;
-    Set<Integer> participants;
-    Set<Integer> invitees;
+    ArrayList<String> participants;
+    ArrayList<String> invitees;
 
-//    public ArrayList<DateTime> getProposedTimesList() { return proposedTimesList; }
-//    public void setProposedTimesList(ArrayList<DateTime> aList) {
-//        this.proposedTimesList = aList;
-//    }
-
-    public int getEventID() {
+    public String getEventID() {
         return eventID;
     }
 
-    public void setEventID(int eventID) {
+    public void setEventID(String eventID) {
         this.eventID = eventID;
     }
 
@@ -43,19 +59,19 @@ public class Event {
         this.eventName = eventName;
     }
 
-    public int getHostID() {
+    public String getHostID() {
         return hostID;
     }
 
-    public void setHostID(int hostID) {
+    public void setHostID(String hostID) {
         this.hostID = hostID;
     }
 
-    public DateTime getConfirmedTime() {
+    public Timestamp getConfirmedTime() {
         return confirmedTime;
     }
 
-    public void setConfirmedTime(DateTime confirmedTime) {
+    public void setConfirmedTime(Timestamp confirmedTime) {
         this.confirmedTime = confirmedTime;
     }
 
@@ -75,27 +91,16 @@ public class Event {
         isTimeSet = timeSet;
     }
 
-//    public Map<DateTime, Integer> getProposedTimes() {
-//        return proposedTimes;
-//    }
-//
-//    public void setProposedTimes(Map<DateTime, Integer> proposedTimes) {
-//        this.proposedTimes = proposedTimes;
-//    }
-
-    public boolean isPrivateEvent() {
-        return isPrivateEvent;
+    public ArrayList<Integer> getProposedTimesVotes() { return proposedTimesVotes; }
+    public void setProposedTimesVotes(ArrayList<Integer> aList) {
+        this.proposedTimesVotes = aList;
     }
 
-    public void setPrivateEvent(boolean privateEvent) {
-        isPrivateEvent = privateEvent;
-    }
-
-    public DateTime getDueTime() {
+    public Timestamp getDueTime() {
         return dueTime;
     }
 
-    public void setDueTime(DateTime dueTime) {
+    public void setDueTime(Timestamp dueTime) {
         this.dueTime = dueTime;
     }
 
@@ -107,19 +112,19 @@ public class Event {
         this.location = location;
     }
 
-    public Set<Integer> getParticipants() {
+    public ArrayList<String> getParticipants() {
         return participants;
     }
 
-    public void setParticipants(Set<Integer> participants) {
+    public void setParticipants(ArrayList<String> participants) {
         this.participants = participants;
     }
 
-    public Set<Integer> getInvitees() {
+    public ArrayList<String> getInvitees() {
         return invitees;
     }
 
-    public void setInvitees(Set<Integer> invitees) {
+    public void setInvitees(ArrayList<String> invitees) {
         this.invitees = invitees;
     }
 }

@@ -7,6 +7,7 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -17,6 +18,7 @@ public class ReceivedEventsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Event> buf = new ArrayList<>();
     ArrayList<Event> receivedEventsList = new ArrayList<>();
+
     // somethign like this
 //    FirebaseUser currentUser = auth.getCurrentUser();
 
@@ -33,14 +35,51 @@ public class ReceivedEventsActivity extends AppCompatActivity {
             }
         });
 
+        readData(list -> {
+            if (receivedEventsList.size() != buf.size()) {
+                addData();
+            }
+        });
+    }
+
+    private void readData(FirestoreCallback firestoreCallback) {
+        db.collection("ReceivedEvents").whereEqualTo("invitees", "12345")
+                .get()
+                .addOnCompleteListener(task -> {
+                    if (task.isSuccessful()) {
+                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                            // System.out.println(document.getId() + "=> " + document.getData());
+                            buf.add(document.toObject(Event.class));
+                        }
+                        firestoreCallback.onCallback(receivedEventsList);
+                    } else {
+                        System.out.println("Error getting documents: " + task.getException());
+                    }
+                });
+    }
+
+    private void addData() {
+        System.out.println(buf.size());
+        receivedEventsList.addAll(0, buf);
+        // receivedAdapter.notifyItemRangeInserted(0, buf,size());
+    }
+
+    private interface FirestoreCallback {
+        void onCallback(ArrayList<Event> list);
+    }
+}
+
+
+
+
 //        readData (list-> {
 //            if (receivedEventsList.size() != buf.size()) {
 //                addData();
 //            }
 //        });
-
-    }
-
+//
+//    }
+//
 //    private void readData(FirestoreCallback firestoreCallback) {
 //        db.collection("ReceivedEvents").whereEqualTo("invitees", currentUser.getUID())
 //                .get().addOnCompleteListener(task -> {
@@ -55,14 +94,19 @@ public class ReceivedEventsActivity extends AppCompatActivity {
 //            }
 //        });
 //    }
+//
+//    private void addData() {
+//        System.out.println(buf.size());
+//        receivedEventsList.addAll(0, buf);
+//        // receivedAdapter.notifyItemRangeInserted(0, buf,size());
+//    }
+//
+//    private interface FirestoreCallback {
+//        void onCallback(ArrayList<Event> list);
+//    }
+//}
 
-    private void addData() {
-        System.out.println(buf.size());
-        receivedEventsList.addAll(0, buf);
-        // receivedAdapter.notifyItemRangeInserted(0, buf,size());
-    }
 
-    private interface FirestoreCallback {
-        void onCallback(ArrayList<Event> list);
-    }
-}
+
+
+

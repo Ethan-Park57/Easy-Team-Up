@@ -13,11 +13,11 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.ArrayList;
 
-public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEventsRecyclerViewAdapter.MyViewHolder> {
+public class RegisteredEventsRecyclerViewAdapter extends RecyclerView.Adapter<RegisteredEventsRecyclerViewAdapter.MyViewHolder>  {
     private ArrayList<Event> data;
     private Context context;
 
-    public SentEventsRecyclerViewAdapter(Context ct, ArrayList<Event> data) {
+    public RegisteredEventsRecyclerViewAdapter(Context ct, ArrayList<Event> data) {
         context = ct;
         this.data = data;
     }
@@ -39,13 +39,14 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
         holder.eventNameTextView.setText(data.get(position).getEventName());
         holder.locationTextView.setText(data.get(position).getLocation());
 
-        holder.sent_events_layout.setOnClickListener(new View.OnClickListener() {
+        holder.registered_events_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 // !!!!!!!!!!!!!!!!!!!!!!!
                 // !!!!!!!!!!!!!!!!!!!!!!!
                 // !!!!!!!!!!!!!!!!!!!!!!!
-                Intent intent = new Intent(context, SentDetailsActivity.class);
+                Intent intent = new Intent(context, RegisteredDetailsActivity.class);
+                intent.putExtra("id", data.get(position).getEventID());
                 intent.putExtra("name", data.get(position).getEventName());
                 intent.putExtra("location", data.get(position).getLocation());
                 intent.putExtra("description", data.get(position).getDescription());
@@ -72,15 +73,16 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
         return data.size();
     }
 
+
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView eventNameTextView, locationTextView;
-        ConstraintLayout sent_events_layout;
+        ConstraintLayout registered_events_layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             eventNameTextView = itemView.findViewById(R.id.event_name_text_view);
             locationTextView = itemView.findViewById(R.id.location_text_view);
-            sent_events_layout = itemView.findViewById(R.id.events_layout);
+            registered_events_layout = itemView.findViewById(R.id.events_layout);
         }
     }
 }
