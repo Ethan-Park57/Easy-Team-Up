@@ -67,29 +67,39 @@ public class ProfileActivity extends AppCompatActivity {
         //emailText.setText(currentUser.());
 
         newName = ProfileEditActivity.getNewName();
-        newURI = ProfileEditActivity.getURI();
+        newURI = user.getPhotoUrl();
         picChanged = ProfileEditActivity.getIsChanged();
         System.out.println("newURI: " + newURI);
         if(picChanged && newName != null){
-            profilePic.setImageURI(newURI);
-            nameText.setText(newName);
+            Picasso.get().load(user.getPhotoUrl()).into(profilePic);
+            nameText.setText(user.getDisplayName());
             emailText.setText(user.getEmail());
-            System.out.println("if picture is changed and name is not changed" + user.getDisplayName());
+            System.out.println("if picture is changed and name is not changed: " + user.getDisplayName());
+            System.out.println("if picture is changed and name is not changed" + user.getPhotoUrl());
         } else if(newName != null && !picChanged){
-            profilePic.setImageURI(newURI);
-            nameText.setText(newName);
+            Picasso.get().load(user.getPhotoUrl()).into(profilePic);
+            nameText.setText(user.getDisplayName());
             emailText.setText(user.getEmail());
             System.out.println("if picture is not changed but name is changed: " + user.getDisplayName());
+            System.out.println("if picture is not changed but name is changed: " + user.getPhotoUrl());
+
 
         }else if(newName == null && !picChanged){
             nameText.setText(user.getDisplayName());
             emailText.setText(user.getEmail());
+            Picasso.get().load(user.getPhotoUrl()).into(profilePic);
             System.out.println("if nothing is changed" + user.getDisplayName());
-
+            System.out.println("if nothing is changed" + user.getPhotoUrl());
+        }else{
+            nameText.setText(user.getDisplayName());
+            emailText.setText(user.getEmail());
+            Picasso.get().load(user.getPhotoUrl()).into(profilePic);
         }
 
         System.out.println("nameText:  " + user.getDisplayName());
         System.out.println("from global:  " + ProfileEditActivity.getNewName());
+        System.out.println("from global URI :  " + ProfileEditActivity.getURI());
+
 
         //Uri defaultURI = Uri.parse("https://firebasestorage.googleapis.com/v0/b/easyteamup-3c633.appspot.com/o/users%2F25Xn74CpUScPvJonjaD6MDUndhp2%2FblankPic.jpg?alt=media&token=b30ce3a1-452b-48e8-bf64-e1f072fbea85");
         //profilePic.setImageURI(defaultURI);
@@ -209,19 +219,20 @@ public class ProfileActivity extends AppCompatActivity {
 //                pictureURI = data.getData();
 //                profilePic.setImageURI(pictureURI);
 //                uploadtoFB(pictureURI);
+//                System.out.println("This is called in profile activity");
 //            }
 //        }
 //    }
+//
 //    private void uploadtoFB(Uri pictureURI){
-//        StorageReference fileReference = storageReference.child("users/"+auth.getCurrentUser().getUid()+"/profilepic.jpg");
+//        StorageReference fileReference = storageReference.child(user.getPhotoUrl().toString());
 //        fileReference.putFile(pictureURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
 //            @Override
 //            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                Toast.makeText(ProfileActivity.this, "Profile picture successfuly uploaded", Toast.LENGTH_SHORT).show();
 //                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
 //                    @Override
 //                    public void onSuccess(Uri uri) {
-//                       Picasso.get().load(uri).into(profilePic);
+//                        Picasso.get().load(uri).into(profilePic);
 //
 //                    }
 //                });
@@ -229,8 +240,6 @@ public class ProfileActivity extends AppCompatActivity {
 //        }).addOnFailureListener(new OnFailureListener() {
 //            @Override
 //            public void onFailure(@NonNull Exception e) {
-//                Toast.makeText(ProfileActivity.this, "Upload failed. Try a smaller file size.", Toast.LENGTH_SHORT).show();
-//
 //            }
 //        });
 //

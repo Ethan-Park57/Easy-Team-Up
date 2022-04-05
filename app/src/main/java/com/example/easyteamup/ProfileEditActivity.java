@@ -58,11 +58,12 @@ public class ProfileEditActivity extends AppCompatActivity {
 
         changeNameInput = (EditText) findViewById(R.id.edit_profile_change_name);
         changePasswordInput = (EditText) findViewById(R.id.edit_profile_change_password);
+        System.out.println("current user photo url: " + auth.getCurrentUser().getPhotoUrl());
 
         changeProfilePic.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View view){
-                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+                Intent openGallery = new Intent(Intent.ACTION_OPEN_DOCUMENT, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                 startActivityForResult(openGallery, 1);
             }
         });
@@ -73,12 +74,11 @@ public class ProfileEditActivity extends AppCompatActivity {
             public void onSuccess(Uri uri) {
                 Picasso.get().load(uri).into(profilePic);
                 UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setPhotoUri(Uri.parse(pictureURI.toString()))
+                        // MAYBE ITS BECAUSE WE NEED TO RETRIEVE THE URI FROM THE DATABASE BRO
+                        .setPhotoUri(auth.getCurrentUser().getPhotoUrl())
                         .build();
 
                 System.out.println("display name!!!!!!!!!!!! " + profileUpdates.getDisplayName());
-
-
                 user.updateProfile(profileUpdates)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
@@ -119,24 +119,30 @@ public class ProfileEditActivity extends AppCompatActivity {
                                 }
                             });
                 }
-                newName = changeNameInput.getText().toString();
-                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-                        .setDisplayName(newName)
-                        .build();
 
-                user.updateProfile(profileUpdates)
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if (task.isSuccessful()) {
-                                    Log.d("tag", "User name display profile updated.");
+                newName = changeNameInput.getText().toString();
+                if(!newName.isEmpty()){
+                    UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
+                            .setDisplayName(newName)
+                            .build();
+
+                    user.updateProfile(profileUpdates)
+                            .addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    if (task.isSuccessful()) {
+                                        Log.d("tag", "User name display profile updated.");
+                                    }
                                 }
-                            }
-                        });
-                UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
-                        .setPhotoUri(Uri.parse(pictureURI.toString()))
-                        .build();
-                newURI = pictureURI;
+                            });
+                }
+                if(pictureURI != null){
+                    UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
+                            .setPhotoUri(Uri.parse(pictureURI.toString()))
+                            .build();
+                    newURI = pictureURI;
+                    user.updateProfile(updates);
+                }
                 startActivity(new Intent(ProfileEditActivity.this, ProfileActivity.class));
             }
         });
@@ -160,6 +166,12 @@ public class ProfileEditActivity extends AppCompatActivity {
                 changed = true;
                 profilePic.setImageURI(pictureURI);
                 uploadtoFB(pictureURI);
+                UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
+                        .setPhotoUri(Uri.parse(pictureURI.toString()))
+                        .build();
+                newURI = pictureURI;
+                user.updateProfile(updates);
+                System.out.println("finish onActivityResult");
             }
         }
     }
@@ -172,6 +184,13 @@ public class ProfileEditActivity extends AppCompatActivity {
                 fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        if(pictureURI != null){
+                            UserProfileChangeRequest updates = new UserProfileChangeRequest.Builder()
+                                    .setPhotoUri(Uri.parse(pictureURI.toString()))
+                                    .build();
+                            newURI = pictureURI;
+                            user.updateProfile(updates);
+                        }
                         Picasso.get().load(uri).into(profilePic);
 
                     }
@@ -181,7 +200,6 @@ public class ProfileEditActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(ProfileEditActivity.this, "Upload failed. Try a smaller file size.", Toast.LENGTH_SHORT).show();
-
             }
         });
 

@@ -1,6 +1,7 @@
 package com.example.easyteamup;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
@@ -101,10 +102,13 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
                 String password = passwordText.getText().toString();
                 System.out.println("email: " + email);
                 System.out.println("password: " + password);
+                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()){
+                    Toast.makeText(RegisterActivity.this, "Must use correct form (xxx@xxx.xxx) and unused email. Try again", Toast.LENGTH_SHORT).show();
+                }
                 if(TextUtils.isEmpty(email) || TextUtils.isEmpty(password)){
                     Toast.makeText(RegisterActivity.this, "Empty username or password.", Toast.LENGTH_SHORT).show();
                 }else if(password.length() < 6){
-                    Toast.makeText(RegisterActivity.this, "Password must be at least 3 letters.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Password must be at least 6 letters.", Toast.LENGTH_SHORT).show();
                 }else{
                     registerUser(email, password);
                 }
@@ -112,7 +116,7 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
         });
 
     }
-    
+
     //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
@@ -191,7 +195,7 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
                     Toast.makeText(RegisterActivity.this, "Succesfuly registered user. Welcome!", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(RegisterActivity.this, ListViewActivity.class));
                 }else{
-                    Toast.makeText(RegisterActivity.this, "Failed to registered user", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(RegisterActivity.this, "Failed to registered user. Try an email that has not been used.", Toast.LENGTH_SHORT).show();
                 }
             }
         });
