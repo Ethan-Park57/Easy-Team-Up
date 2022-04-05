@@ -50,11 +50,11 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
     EditText emailText;
     EditText passwordText;
     EditText nameText;
+
     @Override
     protected void onCreate(Bundle savedInstanceState){
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_register);
-        user = FirebaseAuth.getInstance().getCurrentUser();
 
 //        profilePic = findViewById(R.id.image_view);
 //        changeProfilePic = findViewById(R.id.change_profile_pic);
@@ -112,8 +112,8 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
         });
 
     }
-
-//    @Override
+    
+    //    @Override
 //    protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
 //        super.onActivityResult(requestCode, resultCode, data);
 //        if(requestCode == 1){
@@ -155,11 +155,11 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
             public void onComplete(@NonNull Task<AuthResult> task) {
                 if(task.isSuccessful()){
                     String  userName = nameText.getText().toString();
-
                     UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
                             .setDisplayName(userName)
                             .setPhotoUri(Uri.parse("https://firebasestorage.googleapis.com/v0/b/easyteamup-3c633.appspot.com/o/users%2F25Xn74CpUScPvJonjaD6MDUndhp2%2FblankPic.jpg?alt=media&token=b30ce3a1-452b-48e8-bf64-e1f072fbea85"))
                             .build();
+                    user = FirebaseAuth.getInstance().getCurrentUser();
                     user.updateProfile(profileUpdates)
                             .addOnCompleteListener(new OnCompleteListener<Void>() {
                                 @Override
@@ -169,7 +169,6 @@ public class RegisterActivity  extends AppCompatActivity implements View.OnClick
                                     }
                                 }
                             });
-
 
 
                     String  userEmail = emailText.getText().toString();
