@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.manage;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,6 +6,11 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.example.easyteamup.R;
+import com.example.easyteamup.manage.received.ReceivedEventsActivity;
+import com.example.easyteamup.manage.registered.RegisteredEventsActivity;
+import com.example.easyteamup.manage.sent.SentEventsActivity;
 
 public class ManageEventActivity extends AppCompatActivity {
     @Override

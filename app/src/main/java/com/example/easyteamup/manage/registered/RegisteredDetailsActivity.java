@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.manage.registered;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -10,6 +10,9 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.easyteamup.Event;
+import com.example.easyteamup.R;
+import com.example.easyteamup.manage.ManageEventActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;

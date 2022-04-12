@@ -5,14 +5,17 @@
       <map>
         <entry key="app/src/main/res/layout/acitivty_register.xml" value="0.7703125" />
         <entry key="app/src/main/res/layout/activity_create_event.xml" value="0.25177304964539005" />
+        <entry key="app/src/main/res/layout/activity_event_details.xml" value="0.11881937436932391" />
         <entry key="app/src/main/res/layout/activity_login.xml" value="0.7703125" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_manage_events.xml" value="0.40942028985507245" />
         <entry key="app/src/main/res/layout/activity_received.xml" value="0.40942028985507245" />
+        <entry key="app/src/main/res/layout/activity_received_details.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_register.xml" value="0.38927738927738925" />
         <entry key="app/src/main/res/layout/activity_registered.xml" value="0.40942028985507245" />
         <entry key="app/src/main/res/layout/activity_sent.xml" value="0.40942028985507245" />
         <entry key="app/src/main/res/layout/activity_welcome.xml" value="0.39719202898550726" />
+        <entry key="app/src/main/res/layout/event_row.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_create.xml" value="0.39719202898550726" />
         <entry key="app/src/main/res/layout/fragment_dashboard.xml" value="0.35688405797101447" />
         <entry key="app/src/main/res/layout/fragment_events.xml" value="0.37462006079027355" />

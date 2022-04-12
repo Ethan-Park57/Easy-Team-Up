@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.manage.registered;
 
 import android.content.Context;
 import android.content.Intent;
@@ -10,6 +10,9 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.easyteamup.Event;
+import com.example.easyteamup.R;
 
 import java.util.ArrayList;
 

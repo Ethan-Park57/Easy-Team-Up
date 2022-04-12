@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.manage.sent;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,6 +7,7 @@ import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.easyteamup.R;
 import com.google.firebase.Timestamp;
 
 import java.util.Date;

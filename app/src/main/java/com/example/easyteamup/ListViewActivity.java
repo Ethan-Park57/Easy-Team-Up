@@ -6,13 +6,13 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ListView;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyteamup.manage.ManageEventActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
@@ -21,7 +21,6 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 
@@ -70,7 +69,7 @@ public class ListViewActivity extends AppCompatActivity {
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.manage_event_page:
-                        startActivity(new Intent(getApplicationContext(),ManageEventActivity.class));
+                        startActivity(new Intent(getApplicationContext(), ManageEventActivity.class));
                         overridePendingTransition(0,0);
                         return true;
                     case R.id.profile_page:

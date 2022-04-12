@@ -1,4 +1,4 @@
-package com.example.easyteamup;
+package com.example.easyteamup.manage.received;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -6,8 +6,17 @@ import android.view.View;
 import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyteamup.Event;
+import com.example.easyteamup.R;
+import com.example.easyteamup.manage.ManageEventActivity;
+import com.example.easyteamup.manage.registered.RegisteredEventsRecyclerViewAdapter;
+import com.example.easyteamup.manage.sent.SentEventsActivity;
+import com.example.easyteamup.manage.sent.SentEventsRecyclerViewAdapter;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
@@ -18,9 +27,8 @@ public class ReceivedEventsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     ArrayList<Event> buf = new ArrayList<>();
     ArrayList<Event> receivedEventsList = new ArrayList<>();
-
-    // somethign like this
-//    FirebaseUser currentUser = auth.getCurrentUser();
+    RecyclerView recyclerView;
+    ReceivedEventsRecyclerViewAdapter receivedAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,27 +43,41 @@ public class ReceivedEventsActivity extends AppCompatActivity {
             }
         });
 
+        // set up recyclerview and adapter
+        recyclerView = findViewById(R.id.recycler_view);
+        LinearLayoutManager layoutManager = new LinearLayoutManager(this);
+        recyclerView.setLayoutManager(layoutManager);
+
         readData(list -> {
             if (receivedEventsList.size() != buf.size()) {
                 addData();
             }
         });
+
+        System.out.println("DONE");
     }
 
     private void readData(FirestoreCallback firestoreCallback) {
-        db.collection("ReceivedEvents").whereEqualTo("invitees", "12345")
-                .get()
-                .addOnCompleteListener(task -> {
-                    if (task.isSuccessful()) {
-                        for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                            // System.out.println(document.getId() + "=> " + document.getData());
-                            buf.add(document.toObject(Event.class));
-                        }
-                        firestoreCallback.onCallback(receivedEventsList);
-                    } else {
-                        System.out.println("Error getting documents: " + task.getException());
-                    }
-                });
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
+        System.out.println("ID of clare: " + id);
+
+        db.collection("events").whereArrayContains("invitees", id)
+                .get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    // System.out.println(document.getId() + "=> " + document.getData());
+                    receivedEventsList.add(document.toObject(Event.class));
+                    System.out.println("Document: !!!!!!!!!" + document);
+                    // buf.add(document.toObject(Event.class));
+                }
+                receivedAdapter = new ReceivedEventsRecyclerViewAdapter(this, receivedEventsList);
+                recyclerView.setAdapter(receivedAdapter);
+                // firestoreCallback.onCallback(sentEventsList);
+            } else {
+                System.out.println("Error getting documents: " + task.getException());
+            }
+        });
     }
 
     private void addData() {
