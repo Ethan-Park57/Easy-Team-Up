@@ -199,7 +199,7 @@ public class ProfileEditActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(ProfileEditActivity.this, "Upload failed. Try a smaller file size.", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(ProfileEditActivity.this, "Upload failed. Try a smaller file size.", Toast.LENGTH_SHORT).show();
             }
         });
 

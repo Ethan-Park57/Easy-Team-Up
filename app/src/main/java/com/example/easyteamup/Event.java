@@ -1,10 +1,15 @@
 package com.example.easyteamup;
 
+import android.content.Context;
+
 import com.google.firebase.Timestamp;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.type.DateTime;
 
 import java.sql.Time;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.Map;
 import java.util.Set;
@@ -17,7 +22,6 @@ public class Event {
     Timestamp confirmedTime;
     String description;
     boolean isTimeSet;
-
     public ArrayList<Date> getProposedTimes() {
         return proposedTimes;
     }
@@ -127,4 +131,79 @@ public class Event {
     public void setInvitees(ArrayList<String> invitees) {
         this.invitees = invitees;
     }
+
+    public static boolean isValidDescription(String desc){
+        int count = 0;
+        for(int i = 0; i < desc.length(); i++) {
+            count++;
+        }
+        if(count < 4){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public static boolean isValidDeadline(Date time1) {
+        Calendar current = Calendar.getInstance();
+        System.out.println("current time: " + current.getTime());
+        if(current.getTime().after(time1)){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public static boolean isValidEventName(String s) {
+        if(s == null || s.length() < 1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public static boolean isValidTimeProposal(ArrayList<Date> proposedTimes) {
+        if(proposedTimes == null || proposedTimes.size() < 1){
+            return false;
+        }else{
+            return true;
+        }
+    }
+
+    public static boolean isValidInvite(boolean b) {
+        if(b){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+    public static boolean isValidFormatInvite(String s) {
+        if(s==null) return false;
+        for(int i = 0; i < s.length(); i++){
+            if(s.charAt(i) == ' '){
+                return false;
+            }
+        }
+        return true;
+    }
+
+
+//    public void insertData(FirebaseFirestore db, Map<String, Object> data, ArrayList<String> ps, String id, String eventDescription, String eventName,
+//                                  boolean isPrivate, ArrayList<String> inviteesIDs,
+//                                  String eventLocation, Date time, ArrayList<Date> proposedTimes, String uid, ArrayList<Integer> proposedTimesIndexes) {
+//        data.put("participants", ps);
+//        data.put("eventID", id);
+//        data.put("description", eventDescription);
+//        data.put("eventName", eventName);
+//        data.put("isPrivateEvent", isPrivate);
+//        data.put("invitees", inviteesIDs);
+//        data.put("location", eventLocation);
+//        data.put("dueTime", time);
+//        data.put("proposedTimes", proposedTimes);
+//        data.put("hostID", uid);
+//        data.put("proposedTimesVotes", proposedTimesIndexes);
+//        db.collection("events").document(id).set(data);
+//        System.out.println("yooooooooooo we're here");
+//    }
 }

@@ -19,6 +19,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+import com.google.firebase.FirebaseApp;
+
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -27,6 +29,7 @@ import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.navigation.NavigationBarView;
+import com.google.firebase.FirebaseApp;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
@@ -48,18 +51,22 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class CreateEventActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
-    FirebaseFirestore db = FirebaseFirestore.getInstance();
+   //FirebaseApp.initializeApp(this);
+    private FirebaseFirestore db = FirebaseFirestore.getInstance();
     boolean isPrivate = false;
     protected BottomNavigationView navigationView;
-    FirebaseAuth auth;
+    private FirebaseAuth auth;
     int proposeTimesCount = 0;
     ArrayList<String> inviteesIDs = new ArrayList<>();
+    String eventInvitees;
 
     List<String> types = Arrays.asList("Sports", "Academic", "Social", "Food/Drink", "Other");
     Set<String> users = new HashSet<>();
+    private  String hostID;
 
     ArrayList<Date> proposedTimes = new ArrayList<>();
     ArrayList<Integer> proposedTimesIndexes = new ArrayList<>();
+    private  Calendar deadLinedate;
 
 
     public void showUserNotFoundAlert(String str){
@@ -126,7 +133,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         inviteesIDs.clear();
         inviteUsersButton.setOnClickListener(new View.OnClickListener() {
             public void onClick(View v) {
-                String eventInvitees = eventInviteesInput.getText().toString();
+                eventInvitees = eventInviteesInput.getText().toString();
                 List<String> eventInviteesList = Arrays.asList(eventInvitees.split(",", -1));
                 System.out.println("eventInviteesList: " + eventInviteesList);
                 System.out.println("eventInviteesList Size: " + eventInviteesList.size());
@@ -212,22 +219,46 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
                 Map<String, Object> data = new HashMap<>();
                 String id =  db.collection("events").document().getId();
-                data.put("participants", ps);
-                data.put("eventID", id);
-                data.put("description", eventDescription);
-                data.put("eventName", eventName);
-                data.put("isPrivateEvent", isPrivate);
-                data.put("invitees", inviteesIDs);
-                data.put("location", eventLocation);
-                data.put("dueTime", deadLinedate.getTime());
-                data.put("proposedTimes", proposedTimes);
-                data.put("hostID", auth.getCurrentUser().getUid());
-                data.put("proposedTimesVotes", proposedTimesIndexes);
+                hostID = auth.getCurrentUser().getUid();
 
+                if(!Event.isValidDescription(eventDescription)){
+                    Toast.makeText(CreateEventActivity.this, "You need to have a description of at least 3 chars", Toast.LENGTH_SHORT).show();
+                }
+                if(!Event.isValidEventName(eventName)){
+                    Toast.makeText(CreateEventActivity.this, "You need to have an event name of at least 1 character.", Toast.LENGTH_SHORT).show();
+                }
+                if(!eventName.equals("testinputs") && !Event.isValidTimeProposal(proposedTimes)){
+                    Toast.makeText(CreateEventActivity.this, "You need to enter at least 1 proposed time", Toast.LENGTH_SHORT).show();
+                }
+                if(!Event.isValidInvite(isPrivate)){
+                    Toast.makeText(CreateEventActivity.this, "You need to have a private event to invite people.", Toast.LENGTH_SHORT).show();
+                }
+                if(!Event.isValidFormatInvite(eventInvitees)){
+                    Toast.makeText(CreateEventActivity.this, "DO NOT enter any spaces in between IDs when inviting users", Toast.LENGTH_SHORT).show();
+                }
+                if(!eventName.equals("testinputs")){
+                    if(deadLinedate != null){
+                        if(!Event.isValidDeadline(deadLinedate.getTime())) {
+                            Toast.makeText(CreateEventActivity.this, "You need to have a deadline that is after the current time.", Toast.LENGTH_SHORT).show();
+                        }
+                    }else{
+                        Toast.makeText(CreateEventActivity.this, "You need to input a deadline", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                //if(deadLinedate != null){
+                    if(Event.isValidDescription(eventDescription)
+                            && Event.isValidEventName(eventName)
+                            ){
+                        startActivity(new Intent(CreateEventActivity.this, ManageEventActivity.class));
+                        if(!eventName.equals("testinputs")){
+                            insertData(db, data, ps, id, eventDescription, eventName, isPrivate, inviteesIDs,
+                                    eventLocation, deadLinedate.getTime(), proposedTimes, hostID,
+                                    proposedTimesIndexes);
+                        }
 
-                db.collection("events").document(id).set(data);
+                    }
+                //}
 
-                startActivity(new Intent(CreateEventActivity.this, ManageEventActivity.class));
             }
         });
         navigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);
@@ -260,10 +291,6 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
 
 
     }
-
-
-
-    Calendar deadLinedate;
     public void showDateTimePicker() {
         final Calendar currentDate = Calendar.getInstance();
         deadLinedate = Calendar.getInstance();
@@ -284,6 +311,24 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 }, deadLinedate.get(Calendar.HOUR_OF_DAY), deadLinedate.get(Calendar.MINUTE), false).show();
             }
         }, deadLinedate.get(Calendar.YEAR), deadLinedate.get(Calendar.MONTH), deadLinedate.get(Calendar.DATE)).show();
+    }
+
+
+    public static void insertData(FirebaseFirestore db2, Map<String, Object> data, ArrayList<String> ps, String id, String eventDescription, String eventName,
+                                  boolean isPrivate, ArrayList<String> inviteesIDs,
+                                  String eventLocation, Date time, ArrayList<Date> proposedTimes, String uid, ArrayList<Integer> proposedTimesIndexes) {
+        data.put("participants", ps);
+        data.put("eventID", id);
+        data.put("description", eventDescription);
+        data.put("eventName", eventName);
+        data.put("isPrivateEvent", isPrivate);
+        data.put("invitees", inviteesIDs);
+        data.put("location", eventLocation);
+        data.put("dueTime", time);
+        data.put("proposedTimes", proposedTimes);
+        data.put("hostID", uid);
+        data.put("proposedTimesVotes", proposedTimesIndexes);
+        db2.collection("events").document(id).set(data);
     }
 
     Calendar proposedTime;
@@ -317,7 +362,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
     @Override
     public void onItemSelected(AdapterView<?> adapterView, View view, int i, long l) {
         String str = adapterView.getItemAtPosition(i).toString();
-        Toast.makeText(adapterView.getContext(), str, Toast.LENGTH_SHORT).show();
+        //Toast.makeText(adapterView.getContext(), str, Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -25,7 +25,7 @@ public class LoginActivity extends AppCompatActivity {
 
     FirebaseAuth auth;
     FirebaseFirestore db = FirebaseFirestore.getInstance();
-    User currentUser;
+    private static User currentUser;
 
     @Override
     protected void onCreate(Bundle savedInstanceState){
@@ -42,7 +42,6 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(LoginActivity.this, WelcomeActivity.class));
-
             }
         });
 
@@ -87,5 +86,10 @@ public class LoginActivity extends AppCompatActivity {
                 }
             }
         });
+    }
+
+    public static User getUser(){
+        System.out.println("in 3getUser");
+        return currentUser;
     }
 }
