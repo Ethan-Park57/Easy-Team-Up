@@ -72,9 +72,8 @@ public class CreateEventActivityTest{
 
     @Test
     public void isValidDescriptionTest() {
-        assertEquals(false, Event.isValidDescription("t"));
-        System.out.println("isValidDescriptionTest DONE");
-
+        assertEquals(false, Event.isValidDescription("1"));
+        assertEquals(true, Event.isValidDescription("1234"));
     }
 
     @Test
@@ -87,13 +86,21 @@ public class CreateEventActivityTest{
         System.out.println("time1 year: " + time1.getYear());
         System.out.println("time1 month: " + time1.getMonth());
         assertEquals(true, Event.isValidDeadline(time1));
-        System.out.println("isValidDeadlineTest DONE");
+
+        ArrayList<Date> proposedTimes2 = new ArrayList<>();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(2020, 5, 31, 31, 31, 4);
+        Date time2 = calendar2.getTime();
+        System.out.println("time2: " + time2);
+        System.out.println("time2 year: " + time2.getYear());
+        System.out.println("time2 month: " + time2.getMonth());
+        assertEquals(false, Event.isValidDeadline(time2));
     }
 
     @Test
     public void validEventNameTest(){
         assertEquals(false, Event.isValidEventName(""));
-        System.out.println("isValidEventNameTest DONE");
+        assertEquals(true, Event.isValidEventName("1234"));
     }
 
     @Test
@@ -104,18 +111,24 @@ public class CreateEventActivityTest{
         Date time1 = calendar1.getTime();
         proposedTimes.add(time1);
         assertEquals(true, Event.isValidTimeProposal(proposedTimes));
-        System.out.println("validTimeProposalsTest DONE");
+
+        ArrayList<Date> proposedTimes2 = new ArrayList<>();
+        Calendar calendar2 = Calendar.getInstance();
+        calendar2.set(2020, 5, 31, 31, 31, 4);
+        Date time2 = calendar2.getTime();
+        proposedTimes.add(time2);
+        assertEquals(false, Event.isValidTimeProposal(proposedTimes2));
     }
 
     @Test
     public void validInviteTest(){
         assertEquals(true, Event.isValidInvite(true));
-        System.out.println("validInviteTest DONE");
+        assertEquals(false, Event.isValidInvite(false));
     }
 
     @Test
     public void validFormatInviteTest(){
         assertEquals(true, Event.isValidFormatInvite("test@test.com,test2@test2.com"));
-        System.out.println("validFormatInviteTest DONE");
+        assertEquals(false, Event.isValidFormatInvite("test@test.com, test2@test2.com"));
     }
 }

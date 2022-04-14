@@ -189,21 +189,4 @@ public class Event {
     }
 
 
-//    public void insertData(FirebaseFirestore db, Map<String, Object> data, ArrayList<String> ps, String id, String eventDescription, String eventName,
-//                                  boolean isPrivate, ArrayList<String> inviteesIDs,
-//                                  String eventLocation, Date time, ArrayList<Date> proposedTimes, String uid, ArrayList<Integer> proposedTimesIndexes) {
-//        data.put("participants", ps);
-//        data.put("eventID", id);
-//        data.put("description", eventDescription);
-//        data.put("eventName", eventName);
-//        data.put("isPrivateEvent", isPrivate);
-//        data.put("invitees", inviteesIDs);
-//        data.put("location", eventLocation);
-//        data.put("dueTime", time);
-//        data.put("proposedTimes", proposedTimes);
-//        data.put("hostID", uid);
-//        data.put("proposedTimesVotes", proposedTimesIndexes);
-//        db.collection("events").document(id).set(data);
-//        System.out.println("yooooooooooo we're here");
-//    }
 }

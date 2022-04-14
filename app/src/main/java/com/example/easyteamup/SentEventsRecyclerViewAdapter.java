@@ -42,9 +42,11 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
         holder.sent_events_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // !!!!!!!!!!!!!!!!!!!!!!!
-                // !!!!!!!!!!!!!!!!!!!!!!!
-                // !!!!!!!!!!!!!!!!!!!!!!!
+                if (!ManageEventsUtil.hasValidFields(data.get(position).getEventID(), data.get(position).getEventName(),
+                        data.get(position).getLocation(), data.get(position).getDescription(),
+                        data.get(position).getDueTime().toString())) {
+                    return;
+                }
                 Intent intent = new Intent(context, SentDetailsActivity.class);
                 intent.putExtra("name", data.get(position).getEventName());
                 intent.putExtra("location", data.get(position).getLocation());

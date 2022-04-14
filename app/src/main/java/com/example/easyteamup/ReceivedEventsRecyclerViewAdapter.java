@@ -11,13 +11,19 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.example.easyteamup.Event;
+import com.example.easyteamup.R;
+//import com.example.easyteamup.manage.registered.RegisteredDetailsActivity;
+import com.example.easyteamup.ManageEventsUtil;
+import com.example.easyteamup.RegisteredEventsRecyclerViewAdapter;
+
 import java.util.ArrayList;
 
-public class RegisteredEventsRecyclerViewAdapter extends RecyclerView.Adapter<RegisteredEventsRecyclerViewAdapter.MyViewHolder>  {
+public class ReceivedEventsRecyclerViewAdapter extends RecyclerView.Adapter<ReceivedEventsRecyclerViewAdapter.MyViewHolder>  {
     private ArrayList<Event> data;
     private Context context;
 
-    public RegisteredEventsRecyclerViewAdapter(Context ct, ArrayList<Event> data) {
+    public ReceivedEventsRecyclerViewAdapter(Context ct, ArrayList<Event> data) {
         context = ct;
         this.data = data;
     }
@@ -31,7 +37,7 @@ public class RegisteredEventsRecyclerViewAdapter extends RecyclerView.Adapter<Re
     public MyViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         LayoutInflater inflater = LayoutInflater.from(context);
         View view = inflater.inflate(R.layout.event_row, parent, false);
-        return new MyViewHolder(view);
+        return new ReceivedEventsRecyclerViewAdapter.MyViewHolder(view);
     }
 
     @Override
@@ -39,7 +45,7 @@ public class RegisteredEventsRecyclerViewAdapter extends RecyclerView.Adapter<Re
         holder.eventNameTextView.setText(data.get(position).getEventName());
         holder.locationTextView.setText(data.get(position).getLocation());
 
-        holder.registered_events_layout.setOnClickListener(new View.OnClickListener() {
+        holder.received_events_layout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 if (!ManageEventsUtil.hasValidFields(data.get(position).getEventID(), data.get(position).getEventName(),
@@ -47,7 +53,12 @@ public class RegisteredEventsRecyclerViewAdapter extends RecyclerView.Adapter<Re
                         data.get(position).getDueTime().toString())) {
                     return;
                 }
-                Intent intent = new Intent(context, RegisteredDetailsActivity.class);
+                if (!ManageEventsUtil.hasValidFields(data.get(position).getEventID(), data.get(position).getEventName(),
+                        data.get(position).getLocation(), data.get(position).getDescription(),
+                        data.get(position).getDueTime().toString())) {
+                    return;
+                }
+                Intent intent = new Intent(context, ReceivedDetailsActivity.class);
                 intent.putExtra("id", data.get(position).getEventID());
                 intent.putExtra("name", data.get(position).getEventName());
                 intent.putExtra("location", data.get(position).getLocation());
@@ -78,13 +89,13 @@ public class RegisteredEventsRecyclerViewAdapter extends RecyclerView.Adapter<Re
 
     class MyViewHolder extends RecyclerView.ViewHolder {
         TextView eventNameTextView, locationTextView;
-        ConstraintLayout registered_events_layout;
+        ConstraintLayout received_events_layout;
 
         public MyViewHolder(@NonNull View itemView) {
             super(itemView);
             eventNameTextView = itemView.findViewById(R.id.event_name_text_view);
             locationTextView = itemView.findViewById(R.id.location_text_view);
-            registered_events_layout = itemView.findViewById(R.id.events_layout);
+            received_events_layout = itemView.findViewById(R.id.events_layout);
         }
     }
 }

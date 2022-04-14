@@ -71,6 +71,10 @@
         <activity
             android:name=".SentDetailsActivity"
             android:exported="true" />
+
+        <activity
+            android:name=".ReceivedDetailsActivity"
+            android:exported="true" />
     </application>
 
 </manifest>
