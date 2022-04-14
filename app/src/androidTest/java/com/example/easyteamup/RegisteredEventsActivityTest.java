@@ -48,8 +48,10 @@ proposedTimesVotes:
 
     @Before
     public void setUp() {
+        onView(withId(R.id.login_button)).perform(click());
+
         // enter invitee email
-        onView(withId(R.id.email_text)).perform(typeText("receivedeventstest@gmail.com"),
+        onView(withId(R.id.email_text)).perform(typeText("registeredeventstest@gmail.com"),
                 closeSoftKeyboard());
         // enter invitee password
         onView(withId(R.id.password_text)).perform(typeText("123456"),
@@ -67,7 +69,7 @@ proposedTimesVotes:
     // recycler view comes into view
     @Test
     public void recyclerViewIsDisplayed() {
-        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.registered_recycler_view)).check(matches(isDisplayed()));
     }
 
     /* test that the event shown is the correct one by checking event name
@@ -77,17 +79,17 @@ proposedTimesVotes:
     @Test
     public void correctEventShownTest() {
         // go to registered events details page by clicking on first (and only) item
-        onView(withId(R.id.recycler_view))
-                .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
-        onView(withId(R.id.event_name_text_view_details_page)).check(matches(withText("testreceived")));
+        onView(withId(R.id.registered_recycler_view))
+                .perform(RecyclerViewActions.actionOnItemAtPosition(0,click()));
+        onView(withId(R.id.event_name_text_view_details_page)).check(matches(withText("registeredtest")));
     }
 
     // check pressing back causes recycler view to come back into view
     @Test
     public void onBackButtonPressRecyclerViewIsDisplayed() {
-        onView(withId(R.id.recycler_view))
+        onView(withId(R.id.registered_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         pressBack();
-        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.registered_recycler_view)).check(matches(isDisplayed()));
     }
 }

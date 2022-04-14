@@ -46,8 +46,10 @@ public class SentEventsActivityTest {
 
     @Before
     public void setUp() {
+        onView(withId(R.id.login_button)).perform(click());
+
         // enter invitee email
-        onView(withId(R.id.email_text)).perform(typeText("senteventstest@gmail.com"),
+        onView(withId(R.id.email_text)).perform(typeText("senttestsender@gmail.com"),
                 closeSoftKeyboard());
         // enter invitee password
         onView(withId(R.id.password_text)).perform(typeText("123456"),
@@ -64,8 +66,8 @@ public class SentEventsActivityTest {
 
     // recycler view comes into view
     @Test
-    public void recyclerViewIsDisplayed() {
-        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
+    public void recyclerViewIsDisplayed() throws InterruptedException {
+        onView(withId(R.id.sent_recycler_view)).check(matches(isDisplayed()));
     }
 
     /* test that the event shown is the correct one by checking event name
@@ -73,19 +75,20 @@ public class SentEventsActivityTest {
      * In future, add ID to details page to test this more thoroughly
      */
     @Test
-    public void correctEventShownTest() {
+    public void correctEventShownTest() throws InterruptedException {
         // go to sent events details page by clicking on first (and only) item
-        onView(withId(R.id.recycler_view))
+        Thread.sleep(3000);
+        onView(withId(R.id.sent_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         onView(withId(R.id.event_name_text_view_details_page)).check(matches(withText("sentest")));
     }
 
     // check pressing back causes recycler view to come back into view
     @Test
-    public void onBackButtonPressRecyclerViewIsDisplayed() {
-        onView(withId(R.id.recycler_view))
+    public void onBackButtonPressRecyclerViewIsDisplayed() throws InterruptedException {
+        onView(withId(R.id.sent_recycler_view))
                 .perform(RecyclerViewActions.actionOnItemAtPosition(0, click()));
         pressBack();
-        onView(withId(R.id.recycler_view)).check(matches(isDisplayed()));
+        onView(withId(R.id.sent_recycler_view)).check(matches(isDisplayed()));
     }
 }

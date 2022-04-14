@@ -61,7 +61,7 @@ public class SentEventsActivity extends AppCompatActivity {
         });
 
         // set up recyclerview and adapter
-        recyclerView = findViewById(R.id.recycler_view);
+        recyclerView = findViewById(R.id.sent_recycler_view);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
 

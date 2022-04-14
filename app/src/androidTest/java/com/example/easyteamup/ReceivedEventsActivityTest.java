@@ -54,6 +54,8 @@ public class ReceivedEventsActivityTest {
     @Before
     public void setUp() {
         // enter invitee email
+        onView(withId(R.id.login_button)).perform(click());
+
         onView(withId(R.id.email_text)).perform(typeText("receivedeventstest@gmail.com"),
                 closeSoftKeyboard());
         // enter invitee password

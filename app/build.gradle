@@ -37,6 +37,7 @@ android {
         // Used for Unit testing Android dependent elements in /test folder
         unitTests.includeAndroidResources true
         unitTests.returnDefaultValues true
+        animationsDisabled true
     }
 }
 
@@ -57,7 +58,15 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:20.0.4'
     implementation 'junit:junit:4.12'
 
-    implementation 'androidx.test.espresso:espresso-contrib:3.4.0'
+    androidTestImplementation ('androidx.test.espresso:espresso-contrib:3.3.0') {
+        exclude group: 'com.android.support', module: 'appcompat'
+        exclude module: 'support-annotations'
+        exclude module: 'support-v4'
+        exclude module: 'support-v13'
+        exclude module: 'recyclerview-v7'
+        exclude module: 'appcompat-v7'
+        exclude module: "protobuf-lite"
+    }
 
     testImplementation 'junit:junit:4.13.2'
     testImplementation 'org.mockito:mockito-core:3.3.3'
