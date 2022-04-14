@@ -2,7 +2,7 @@ package com.example.easyteamup;
 
 import static org.junit.Assert.*;
 
-import com.example.easyteamup.manage.ManageEventsUtil;
+import com.example.easyteamup.ManageEventsUtil;
 
 import org.junit.Test;
 
