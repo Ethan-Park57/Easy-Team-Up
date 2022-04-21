@@ -100,68 +100,7 @@ public class ProfileActivity extends AppCompatActivity {
         System.out.println("from global:  " + ProfileEditActivity.getNewName());
         System.out.println("from global URI :  " + ProfileEditActivity.getURI());
 
-
-        //Uri defaultURI = Uri.parse("https://firebasestorage.googleapis.com/v0/b/easyteamup-3c633.appspot.com/o/users%2F25Xn74CpUScPvJonjaD6MDUndhp2%2FblankPic.jpg?alt=media&token=b30ce3a1-452b-48e8-bf64-e1f072fbea85");
-        //profilePic.setImageURI(defaultURI);
-//        Uri photoUrl = user.getPhotoUrl();
-//        profilePic.setImageURI(photoUrl);
         storageReference = FirebaseStorage.getInstance().getReference();
-        //changeProfilePic = findViewById(R.id.change_profile_picture);
-//        changeProfilePic.setOnClickListener(new View.OnClickListener(){
-//            @Override
-//            public void onClick(View view){
-//                Intent openGallery = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-//                startActivityForResult(openGallery, 1);
-//            }
-//        });
-
-
-
-//        auth = FirebaseAuth.getInstance();
-//        db.collection("users").whereEqualTo("hostID", id)
-//                .get()
-//                .addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<QuerySnapshot> task) {
-//                        if (task.isSuccessful()) {
-//                            for (QueryDocumentSnapshot document : task.getResult()) {
-//                                Log.d("USERS ", document.getId() + " => " + document.getData());
-//                                System.out.println("document data: " + document.getData());
-//                            }
-//                        } else {
-//                            Log.d("USERS: ", "Error getting documents: ", task.getException());
-//                        }
-//                    }
-//                });
-
-//        StorageReference profileReference = storageReference.child("users/"+auth.getCurrentUser().getUid()+"/profilepic.jpg");
-//        profileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//            @Override
-//            public void onSuccess(Uri uri) {
-//                Picasso.get().load(uri).into(profilePic);
-//                UserProfileChangeRequest profileUpdates = new UserProfileChangeRequest.Builder()
-//                        .setPhotoUri(Uri.parse(pictureURI.toString()))
-//                        .build();
-//
-//                System.out.println("display name!!!!!!!!!!!! " + profileUpdates.getDisplayName());
-//
-//
-//                user.updateProfile(profileUpdates)
-//                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-//                            @Override
-//                            public void onComplete(@NonNull Task<Void> task) {
-//                                if (task.isSuccessful()) {
-//                                    profilePic.setImageURI(pictureURI);
-//                                    Log.d("tag2", "User profile update55d.");
-//                                }
-//                            }
-//                        });
-//                System.out.println("uri of pic is!!!!!!!!@@@@: " + user.getPhotoUrl());
-//
-//            }
-//        });
-
-
 
         editProfileButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -169,6 +108,15 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(new Intent(ProfileActivity.this, ProfileEditActivity.class));
                 System.out.println("uri of pic is!!!!!!!!@@@@: " + user.getPhotoUrl());
 
+            }
+        });
+
+
+        Button notifButton = (Button) findViewById(R.id.notifications_button);
+        notifButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(ProfileActivity.this, NotificationsActivity.class));
             }
         });
 
@@ -210,40 +158,4 @@ public class ProfileActivity extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onActivityResult(int requestCode, int resultCode, @androidx.annotation.Nullable Intent data) {
-//        super.onActivityResult(requestCode, resultCode, data);
-//        if(requestCode == 1){
-//            if(resultCode == Activity.RESULT_OK){
-//                pictureURI = data.getData();
-//                profilePic.setImageURI(pictureURI);
-//                uploadtoFB(pictureURI);
-//                System.out.println("This is called in profile activity");
-//            }
-//        }
-//    }
-//
-//    private void uploadtoFB(Uri pictureURI){
-//        StorageReference fileReference = storageReference.child(user.getPhotoUrl().toString());
-//        fileReference.putFile(pictureURI).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-//            @Override
-//            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-//                fileReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-//                    @Override
-//                    public void onSuccess(Uri uri) {
-//                        Picasso.get().load(uri).into(profilePic);
-//
-//                    }
-//                });
-//            }
-//        }).addOnFailureListener(new OnFailureListener() {
-//            @Override
-//            public void onFailure(@NonNull Exception e) {
-//            }
-//        });
-//
-//
-//    }
-
 }
