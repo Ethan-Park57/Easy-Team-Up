@@ -14,6 +14,8 @@ import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -25,6 +27,11 @@ public class NotificationsActivity extends AppCompatActivity {
     NotificationsRecyclerViewAdapter notifAdapter;
     ArrayList<User> hostUser = new ArrayList<>();
     ArrayList<User> buf = new ArrayList<>();
+    ArrayList<Event> registeredEventsList = new ArrayList<>();
+    RegisteredEventsRecyclerViewAdapter registeredAdapter;
+    Map<String, String> notif = new HashMap<>();
+    String deadlinedEvent;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,17 +41,53 @@ public class NotificationsActivity extends AppCompatActivity {
         recyclerView = findViewById(R.id.notifs_recycler);
         LinearLayoutManager layoutManager = new LinearLayoutManager(this);
         recyclerView.setLayoutManager(layoutManager);
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String id = user.getUid();
+
+        db.collection("events").whereArrayContains("participants", id)
+                .get().addOnCompleteListener(task -> {
+            if (task.isSuccessful()) {
+                int i = 0;
+                for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
+                    // System.out.println(document.getId() + "=> " + document.getData());
+                    registeredEventsList.add(document.toObject(Event.class));
+                    System.out.println("reg size: before checking time: " + registeredEventsList.size());
+                    Calendar current = Calendar.getInstance();
+                    //Date date = new Date(String.valueOf(registeredEventsList.get(i).getDueTime()));
+                    Date deadlineJavaDate = registeredEventsList.get(i).getDueTime().toDate();
+                    if(deadlineJavaDate.before(current.getTime())){
+                        deadlinedEvent = registeredEventsList.get(i).getEventID();
+                        System.out.println("deadline passed....!");
+
+                    }else{
+                        System.out.println("deadline NOT passed....!");
+
+                    }
+                    System.out.println("we're in the registered events in notifcations" + document);
+                    System.out.println("reg size:++: " + registeredEventsList.size());
+                    // buf.add(document.toObject(Event.class));
+                    i++;
+                }
+                //registeredAdapter = new RegisteredEventsRecyclerViewAdapter(this, registeredEventsList);
+                //recyclerView.setAdapter(registeredAdapter);
+                // firestoreCallback.onCallback(sentEventsList);
+            } else {
+                System.out.println("Error getting documents: " + task.getException());
+            }
+        });
         readData(list -> {
             if (hostUser.size() != buf.size()) {
                 addData();
             }
         });
-
     }
 
     private void addData() {
         System.out.println(buf.size());
         hostUser.addAll(0, buf);
+
     }
 
     private void readData(NotificationsActivity.FirestoreCallback firestoreCallback) {
@@ -64,10 +107,12 @@ public class NotificationsActivity extends AppCompatActivity {
                     System.out.println("notifications activity page is loaded" + document);
                     // buf.add(document.toObject(Event.class));
                 //}
-            Map<String, String> notif = new HashMap<>();
             notif = hostUser.get(0).getNotifications();
-                notifAdapter = new NotificationsRecyclerViewAdapter(this, notif);
-                recyclerView.setAdapter(notifAdapter);
+            if(deadlinedEvent != null){
+                notif.put("645", deadlinedEvent);
+            }
+            notifAdapter = new NotificationsRecyclerViewAdapter(this, notif);
+            recyclerView.setAdapter(notifAdapter);
                 // firestoreCallback.onCallback(sentEventsList);
             //} else {
                 System.out.println("Error getting documents: " + task.getException());
