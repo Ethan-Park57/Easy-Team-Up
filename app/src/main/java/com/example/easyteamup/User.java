@@ -1,10 +1,22 @@
 package com.example.easyteamup;
 
+import java.util.Map;
+
 public class User {
     private String hostID;
     private String userEmail;
     private String userName;
     private String userPassword;
+
+    private Map<String, String> notifications;
+
+    public void setNotifications(Map<String, String> notifications) {
+        this.notifications = notifications;
+    }
+
+    public Map<String, String> getNotifications() {
+        return notifications;
+    }
 
     public String getHostID() {
         return hostID;
