@@ -1,18 +1,10 @@
 package com.example.easyteamup;
 
-import android.content.Context;
-
 import com.google.firebase.Timestamp;
-import com.google.firebase.database.FirebaseDatabase;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.type.DateTime;
 
-import java.sql.Time;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Map;
-import java.util.Set;
 
 public class Event {
 

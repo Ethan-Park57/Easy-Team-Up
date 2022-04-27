@@ -1,10 +1,14 @@
 package com.example.easyteamup;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+
 public class User {
     private String hostID;
     private String userEmail;
     private String userName;
     private String userPassword;
+    private ArrayList<String> notifications;
 
     public String getHostID() {
         return hostID;
@@ -13,7 +17,6 @@ public class User {
     public void setHostID(String hostID) {
         this.hostID = hostID;
     }
-
 
     public String getUserEmail() {
         return userEmail;
@@ -39,6 +42,11 @@ public class User {
         this.userPassword = userPassword;
     }
 
+    public ArrayList<String> getNotifications() {
+        return notifications;
+    }
 
-
+    public void setNotifications(ArrayList<String> notifications) {
+        this.notifications = notifications;
+    }
 }

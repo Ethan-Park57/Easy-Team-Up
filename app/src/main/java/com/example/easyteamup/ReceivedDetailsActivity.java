@@ -21,12 +21,16 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 
 public class ReceivedDetailsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView nameTextView, locationTextView, descriptionTextView, proposedTextView;
-    String id, name, location, description, dueTime, proposed1, proposed2, proposed3;
+    String id, hostID, name, location, description, dueTime, proposed1, proposed2, proposed3;
     RadioButton proposed1_button, proposed2_button, proposed3_button;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -95,7 +99,9 @@ public class ReceivedDetailsActivity extends AppCompatActivity {
                                 "participants", participantsCopy,
                                 "invitees", inviteesCopy
                         );
-                        Toast.makeText(ReceivedDetailsActivity.this, "Succesfuly withdrawn from the event!", Toast.LENGTH_SHORT).show();
+
+                        Toast.makeText(ReceivedDetailsActivity.this, "Successfully " +
+                                "registered for the event!", Toast.LENGTH_SHORT).show();
                     }
                 });
             }
@@ -109,6 +115,9 @@ public class ReceivedDetailsActivity extends AppCompatActivity {
             location = getIntent().getStringExtra("location");
             description = getIntent().getStringExtra("description");
             dueTime = getIntent().getStringExtra("dueTime");
+//            SimpleDateFormat sf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z");
+//            Date dueTimeDate = new Date(Long.parseLong(dueTime));
+//            dueTime = dueTimeDate.toString();
             proposed1 = getIntent().getStringExtra("proposed1");
             proposed2 = getIntent().getStringExtra("proposed2");
             proposed3 = getIntent().getStringExtra("proposed3");

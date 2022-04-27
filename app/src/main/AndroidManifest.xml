@@ -75,6 +75,9 @@
         <activity
             android:name=".ReceivedDetailsActivity"
             android:exported="true" />
+        <activity
+            android:name=".EditEventActivity"
+            android:exported="true" />
     </application>
 
 </manifest>

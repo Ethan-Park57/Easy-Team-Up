@@ -17,13 +17,17 @@ import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashMap;
 
 public class RegisteredDetailsActivity extends AppCompatActivity {
 
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView nameTextView, locationTextView, descriptionTextView, proposedTextView;
-    String id, name, location, description, dueTime, proposed1, proposed2, proposed3;
+    String id, hostID, name, location, description, dueTime, proposed1, proposed2, proposed3;
     RadioButton proposed1_button, proposed2_button, proposed3_button;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -52,8 +56,10 @@ public class RegisteredDetailsActivity extends AppCompatActivity {
         }
     });
 
-        withdraw.setOnClickListener(new View.OnClickListener() {
+    withdraw.setOnClickListener(new View.OnClickListener() {
         Event e;
+        User host;
+
         @Override
         public void onClick(View v) {
             DocumentReference docRef = db.collection("events").document(id);
@@ -61,27 +67,43 @@ public class RegisteredDetailsActivity extends AppCompatActivity {
                 @Override
                 public void onSuccess(DocumentSnapshot documentSnapshot) {
                     e = documentSnapshot.toObject(Event.class);
-                    ArrayList<String> participantsCopy = new ArrayList<>();
-                    if (e.getParticipants() != null) {
-                        participantsCopy = e.getParticipants();
-                    }
-                    participantsCopy.remove(user.getUid());
-                    db.collection("events").document(id).update("participants", participantsCopy);
-                    Toast.makeText(RegisteredDetailsActivity.this, "Succesfuly withdrawn from the event!", Toast.LENGTH_SHORT).show();
+                    DocumentReference hostDocRef = db.collection("users").document(e.getHostID());
+                    hostDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                        @Override
+                        public void onSuccess(DocumentSnapshot documentSnapshot) {
+                            host = documentSnapshot.toObject(User.class);
+
+                            ArrayList<String> notificationsCopy = host.getNotifications();
+                            notificationsCopy.add("=" + id);
+                            db.collection("users").document(e.getHostID()).update(
+                                    "notifications", notificationsCopy
+                            );
+
+                            ArrayList<String> participantsCopy;
+                            participantsCopy = e.getParticipants();
+                            participantsCopy.remove(user.getUid());
+                            db.collection("events").document(id).update("participants", participantsCopy);
+                        }
+                    });
+                    Toast.makeText(RegisteredDetailsActivity.this, "Successfully " +
+                            "withdrew from the event!", Toast.LENGTH_SHORT).show();
                 }
             });
         }
     });
-
 }
 
     private void getData() {
         if (getIntent().hasExtra("name") && getIntent().hasExtra("location")) {
             id = getIntent().getStringExtra("id");
+            hostID = getIntent().getStringExtra("hostID");
             name = getIntent().getStringExtra("name");
             location = getIntent().getStringExtra("location");
             description = getIntent().getStringExtra("description");
             dueTime = getIntent().getStringExtra("dueTime");
+//            SimpleDateFormat sf = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss z");
+//            Date dueTimeDate = new Date(Long.parseLong(dueTime));
+//            dueTime = dueTimeDate.toString();
             proposed1 = getIntent().getStringExtra("proposed1");
             proposed2 = getIntent().getStringExtra("proposed2");
             proposed3 = getIntent().getStringExtra("proposed3");

@@ -53,6 +53,7 @@ public class ListViewRecyclerViewAdapter extends RecyclerView.Adapter<ListViewRe
             public void onClick(View view) {
                 Intent intent = new Intent(context, EventDetailsActivity.class);
                 intent.putExtra("id", data.get(position).getEventID());
+                intent.putExtra("hostID", data.get(position).getHostID());
                 intent.putExtra("name", data.get(position).getEventName());
                 intent.putExtra("location", data.get(position).getLocation());
                 intent.putExtra("description", data.get(position).getDescription());
