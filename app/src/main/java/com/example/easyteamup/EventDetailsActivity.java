@@ -22,11 +22,12 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Arrays;
 
 public class EventDetailsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView nameTextView, locationTextView, descriptionTextView, proposedTextView;
-    String id, name, location, description, dueTime, proposed1, proposed2, proposed3;
+    String id, hostID, name, location, description, dueTime, proposed1, proposed2, proposed3;
     RadioButton proposed1_button, proposed2_button, proposed3_button;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
@@ -57,6 +58,8 @@ public class EventDetailsActivity extends AppCompatActivity {
         });
 
         registerButton.setOnClickListener(new View.OnClickListener() {
+            String hostID;
+            User host;
             Event e;
             @Override
             public void onClick(View v) {
@@ -65,15 +68,35 @@ public class EventDetailsActivity extends AppCompatActivity {
                     @Override
                     public void onSuccess(DocumentSnapshot documentSnapshot) {
                         e = documentSnapshot.toObject(Event.class);
-                        ArrayList<String> participantsCopy;
-                        if (e.getParticipants() != null) {
-                            participantsCopy = e.getParticipants();
-                        } else {
-                            participantsCopy = new ArrayList<>();
-                        }
-                        participantsCopy.add(user.getUid());
-                        db.collection("events").document(id).update("participants", participantsCopy);
-                        Toast.makeText(EventDetailsActivity.this, "Succesfuly registered for the event!", Toast.LENGTH_SHORT).show();
+                        DocumentReference hostDocRef = db.collection("users").document(e.getHostID());
+                        hostDocRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                            @Override
+                            public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                host = documentSnapshot.toObject(User.class);
+
+                                ArrayList<String> notificationsCopy = host.getNotifications();
+                                notificationsCopy.add("+" + id);
+                                db.collection("users").document(e.getHostID()).update(
+                                        "notifications", notificationsCopy
+                                );
+
+                                DocumentReference docRef = db.collection("events").document(id);
+                                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                                    @Override
+                                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                                        e = documentSnapshot.toObject(Event.class);
+                                        ArrayList<String> participantsCopy;
+                                        if (e.getParticipants() != null) {
+                                            participantsCopy = e.getParticipants();
+                                        } else {
+                                            participantsCopy = new ArrayList<>();
+                                        }
+                                        participantsCopy.add(user.getUid());
+                                        db.collection("events").document(id).update("participants", participantsCopy);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
             }
@@ -84,6 +107,7 @@ public class EventDetailsActivity extends AppCompatActivity {
     private void getData() {
         if (getIntent().hasExtra("name") && getIntent().hasExtra("location")) {
             id = getIntent().getStringExtra("id");
+            hostID = getIntent().getStringExtra("hostID");
             name = getIntent().getStringExtra("name");
             location = getIntent().getStringExtra("location");
             description = getIntent().getStringExtra("description");

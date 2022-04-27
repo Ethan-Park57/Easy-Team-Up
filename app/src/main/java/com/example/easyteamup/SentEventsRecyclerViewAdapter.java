@@ -48,19 +48,21 @@ public class SentEventsRecyclerViewAdapter extends RecyclerView.Adapter<SentEven
                     return;
                 }
                 Intent intent = new Intent(context, SentDetailsActivity.class);
+                intent.putExtra("id", data.get(position).getEventID());
                 intent.putExtra("name", data.get(position).getEventName());
                 intent.putExtra("location", data.get(position).getLocation());
                 intent.putExtra("description", data.get(position).getDescription());
-                intent.putExtra("dueTime", data.get(position).getDueTime().toDate());
-                System.out.println("Due time is " + data.get(position).getDueTime().toDate());
+                intent.putExtra("dueTimeSeconds", Long.toString(data.get(position).getDueTime().getSeconds()));
+                intent.putExtra("dueTimeNanoseconds", Integer.toString(data.get(position).getDueTime().getNanoseconds()));
+                System.out.println("Due time is " + data.get(position).getDueTime().toString());
                 System.out.println("proposed time size is " + data.get(position).getProposedTimes().size());
 
                 intent.putExtra("proposed1", data.get(position).getProposedTimes().get(0).toString());
-                if (data.size() > 1) {
+                if (data.get(position).getProposedTimes().size() > 1) {
                     System.out.println(data.get(position).getProposedTimes().get(1).toString());
                     intent.putExtra("proposed2", data.get(position).getProposedTimes().get(1).toString());
                 }
-                if (data.size() > 2) {
+                if (data.get(position).getProposedTimes().size() > 2) {
                     System.out.println(data.get(position).getProposedTimes().get(2).toString());
                     intent.putExtra("proposed3", data.get(position).getProposedTimes().get(2).toString());
                 }

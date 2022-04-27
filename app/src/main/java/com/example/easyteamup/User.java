@@ -2,13 +2,14 @@ package com.example.easyteamup;
 
 import java.util.ArrayList;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.HashMap;
 
 public class User {
     private String hostID;
     private String userEmail;
     private String userName;
     private String userPassword;
-
     private ArrayList<String> notifications;
 
     public void setNotifications(ArrayList<String> notifications) {

@@ -78,6 +78,9 @@
         <activity
             android:name=".NotificationsActivity"
             android:exported="true" />
+        <activity
+            android:name=".EditEventActivity"
+            android:exported="true" />
 
     </application>
 

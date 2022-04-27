@@ -157,7 +157,11 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
     }
     @Override
     public int getItemCount() {
-        return data.size();
+        if(!data.isEmpty()){
+            return data.size();
+        }else{
+            return 0;
+        }
     }
 
 
