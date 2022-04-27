@@ -1,5 +1,6 @@
 package com.example.easyteamup;
 
+import java.util.ArrayList;
 import java.util.Map;
 
 public class User {
@@ -8,13 +9,13 @@ public class User {
     private String userName;
     private String userPassword;
 
-    private Map<String, String> notifications;
+    private ArrayList<String> notifications;
 
-    public void setNotifications(Map<String, String> notifications) {
+    public void setNotifications(ArrayList<String> notifications) {
         this.notifications = notifications;
     }
 
-    public Map<String, String> getNotifications() {
+    public ArrayList<String> getNotifications() {
         return notifications;
     }
 

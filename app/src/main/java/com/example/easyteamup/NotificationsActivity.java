@@ -29,7 +29,7 @@ public class NotificationsActivity extends AppCompatActivity {
     ArrayList<User> buf = new ArrayList<>();
     ArrayList<Event> registeredEventsList = new ArrayList<>();
     RegisteredEventsRecyclerViewAdapter registeredAdapter;
-    Map<String, String> notif = new HashMap<>();
+    ArrayList<String> notif = new ArrayList<>();
     String deadlinedEvent;
 
 
@@ -98,24 +98,24 @@ public class NotificationsActivity extends AppCompatActivity {
 
         db.collection("users").document(id)
                 .get().addOnCompleteListener(task -> {
-                    System.out.println("Made it here... HI");
+            System.out.println("Made it here... HI");
             //if (task.isSuccessful()) {
             DocumentSnapshot document = task.getResult();
             //for (QueryDocumentSnapshot document : Objects.requireNonNull(task.getResult())) {
-                    // System.out.println(document.getId() + "=> " + document.getData());
-                    hostUser.add(document.toObject(User.class));
-                    System.out.println("notifications activity page is loaded" + document);
-                    // buf.add(document.toObject(Event.class));
-                //}
+            // System.out.println(document.getId() + "=> " + document.getData());
+            hostUser.add(document.toObject(User.class));
+            System.out.println("notifications activity page is loaded" + document);
+            // buf.add(document.toObject(Event.class));
+            //}
             notif = hostUser.get(0).getNotifications();
             if(deadlinedEvent != null){
-                notif.put("645", deadlinedEvent);
+                notif.add("@" + deadlinedEvent);
             }
             notifAdapter = new NotificationsRecyclerViewAdapter(this, notif);
             recyclerView.setAdapter(notifAdapter);
-                // firestoreCallback.onCallback(sentEventsList);
+            // firestoreCallback.onCallback(sentEventsList);
             //} else {
-                System.out.println("Error getting documents: " + task.getException());
+            System.out.println("Error getting documents: " + task.getException());
             //}
         });
     }

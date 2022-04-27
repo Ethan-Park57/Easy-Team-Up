@@ -19,6 +19,14 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.TimePicker;
 import android.widget.Toast;
+
+import com.google.android.gms.common.api.Status;
+import com.google.android.libraries.places.api.Places;
+import com.google.android.libraries.places.api.model.Place;
+import com.google.android.libraries.places.widget.Autocomplete;
+import com.google.android.libraries.places.widget.AutocompleteSupportFragment;
+import com.google.android.libraries.places.widget.listener.PlaceSelectionListener;
+import com.google.android.libraries.places.widget.model.AutocompleteActivityMode;
 import com.google.firebase.FirebaseApp;
 
 
@@ -126,9 +134,37 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         Button createEventButton = (Button) findViewById(R.id.create_event);
         CheckBox isPrivateCheckBox = (CheckBox) findViewById(R.id.is_private_check_box);
         EditText eventInviteesInput = (EditText) findViewById(R.id.invite_list_text);
-        EditText eventLocationInput = (EditText) findViewById(R.id.event_location_text);
+        Places.initialize(getApplicationContext(), "AIzaSyB-U7dq-JcPn9zrVxfN4EuaI1S4kFsjsBk");
+        final String[] eventLocationGoogle = {null};
 
-        // invite users
+// Initialize the AutocompleteSupportFragment.
+        AutocompleteSupportFragment autocompleteFragment = (AutocompleteSupportFragment)
+                getSupportFragmentManager().findFragmentById(R.id.autocomplete_fragment);
+
+        // Specify the types of place data to return.
+        autocompleteFragment.setPlaceFields(Arrays.asList(Place.Field.ID, Place.Field.NAME, Place.Field.LAT_LNG));
+
+        // Set up a PlaceSelectionListener to handle the response.
+        autocompleteFragment.setOnPlaceSelectedListener(new PlaceSelectionListener() {
+            @Override
+            public void onPlaceSelected(@NonNull Place place) {
+                // TODO: Get info about the selected place.
+                Log.i("TAG", "Place: " + place.getName() + ", " + place.getId());
+                Log.i("TAG", "Viewport: " + place.getViewport());
+                Log.i("TAG", "lat long: " + place.getLatLng());
+
+                eventLocationGoogle[0] = String.valueOf(place.getLatLng());
+            }
+
+
+            @Override
+            public void onError(@NonNull Status status) {
+                // TODO: Handle the error.
+                Log.i("TAG", "An error occurred: " + status);
+            }
+        });
+
+            // invite users
         Button inviteUsersButton = (Button) findViewById(R.id.invite_users_button);
         inviteesIDs.clear();
         inviteUsersButton.setOnClickListener(new View.OnClickListener() {
@@ -211,7 +247,7 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 String eventType = spinner.getSelectedItem().toString();
                 System.out.println("Selected Item: " + eventType);
 
-                String eventLocation = eventLocationInput.getText().toString();
+                String eventLocation = eventLocationGoogle[0];
                 System.out.println("Location: " + eventLocation);
 
                 ArrayList<String> ps = new ArrayList<>();
@@ -246,17 +282,17 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                     }
                 }
                 //if(deadLinedate != null){
-                    if(Event.isValidDescription(eventDescription)
-                            && Event.isValidEventName(eventName)
-                            ){
+//                    if(Event.isValidDescription(eventDescription)
+//                            && Event.isValidEventName(eventName)
+//                            ){
                         startActivity(new Intent(CreateEventActivity.this, ManageEventActivity.class));
-                        if(!eventName.equals("testinputs")){
+//                        if(!eventName.equals("testinputs")){
                             insertData(db, data, ps, id, eventDescription, eventName, isPrivate, inviteesIDs,
                                     eventLocation, deadLinedate.getTime(), proposedTimes, hostID,
                                     proposedTimesIndexes);
-                        }
+                        //}
 
-                    }
+                    //}
                 //}
 
             }

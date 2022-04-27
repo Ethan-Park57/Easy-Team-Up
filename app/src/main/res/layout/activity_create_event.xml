@@ -8,82 +8,6 @@
     tools:context=".CreateEventActivity">
 
 
-        <TextView
-            android:id="@+id/prompt"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="24dp"
-            android:layout_marginTop="24dp"
-            android:text="Fill out the information below to create an event!"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
-
-        <EditText
-            android:id="@+id/event_name"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="35dp"
-            android:layout_marginTop="26dp"
-            android:layout_marginEnd="83dp"
-            android:ems="10"
-            android:hint="Event name"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintEnd_toStartOf="@+id/event_location_text"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/prompt" />
-
-        <EditText
-            android:id="@+id/event_description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:ems="10"
-            android:hint="Event description"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintStart_toStartOf="@+id/event_name"
-            app:layout_constraintTop_toBottomOf="@+id/event_name" />
-
-        <Button
-            android:id="@+id/create_event"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="73dp"
-            android:text="Create Event"
-            app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <CheckBox
-            android:id="@+id/is_private_check_box"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="16dp"
-            android:text="Is this event private?"
-            android:textSize="10sp"
-            app:layout_constraintBottom_toTopOf="@+id/invite_people_prompt"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.498"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/invite_list_text"
-            android:layout_width="0dp"
-            android:layout_height="42dp"
-            android:layout_marginStart="26dp"
-            android:layout_marginTop="25dp"
-            android:layout_marginEnd="19dp"
-            android:ems="10"
-            android:hint="person1@mail.com, person2@mail.com"
-            android:inputType="textPersonName"
-            android:singleLine="false"
-            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-            android:textSize="8sp"
-            app:layout_constraintEnd_toStartOf="@+id/invite_users_button"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/invite_people_prompt" />
-
         <!--    <TextView-->
         <!--        android:id="@+id/textView2"-->
         <!--        android:layout_width="wrap_content"-->
@@ -95,10 +19,101 @@
         <!--        app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
+            android:id="@+id/prompt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="48dp"
+            android:layout_marginTop="16dp"
+            android:text="Fill out the information below to create an event!"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/event_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginBottom="19dp"
+            android:ems="10"
+            android:hint="Event name"
+            android:inputType="textPersonName"
+            android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/event_description"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <EditText
+            android:id="@+id/event_description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="126dp"
+            android:ems="10"
+            android:hint="Event description"
+            android:inputType="textPersonName"
+            android:textSize="12sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <!--        <EditText-->
+        <!--            android:id="@+id/event_location_text"-->
+        <!--            android:layout_width="0dp"-->
+        <!--            android:layout_height="0dp"-->
+        <!--            android:layout_marginEnd="28dp"-->
+        <!--            android:ems="10"-->
+        <!--            android:hint="Event Location"-->
+        <!--            android:inputType="textPersonName"-->
+        <!--            android:textSize="12sp"-->
+        <!--            app:layout_constraintBottom_toBottomOf="@+id/event_name"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toEndOf="@+id/event_name"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/event_name" />-->
+
+        <Button
+            android:id="@+id/create_event"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="60dp"
+            android:text="Create Event"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.498"
+            app:layout_constraintStart_toStartOf="parent" />
+
+        <CheckBox
+            android:id="@+id/is_private_check_box"
+            android:layout_width="126dp"
+            android:layout_height="0dp"
+            android:layout_marginBottom="520dp"
+            android:text="Is this event private?"
+            android:textSize="10sp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/autocomplete_fragment" />
+
+        <EditText
+            android:id="@+id/invite_list_text"
+            android:layout_width="0dp"
+            android:layout_height="42dp"
+            android:layout_marginStart="26dp"
+            android:layout_marginTop="24dp"
+            android:layout_marginEnd="19dp"
+            android:ems="10"
+            android:hint="person1@mail.com, person2@mail.com"
+            android:inputType="textPersonName"
+            android:singleLine="false"
+            android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+            android:textSize="8sp"
+            app:layout_constraintEnd_toStartOf="@+id/invite_users_button"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/invite_people_prompt" />
+
+        <TextView
             android:id="@+id/invite_people_prompt"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="224dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="208dp"
             android:text="If event is private, please enter emails of people you would like to invite, separated by commas. DO NOT include space after commas. If public, please ignore."
             android:textSize="10sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -108,24 +123,23 @@
             android:id="@+id/spinner"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="9dp"
-            android:layout_marginEnd="8dp"
-            app:layout_constraintEnd_toEndOf="@+id/event_location_text"
-            app:layout_constraintTop_toBottomOf="@+id/event_location_text" />
+            android:layout_marginTop="60dp"
+            app:layout_constraintEnd_toEndOf="@+id/autocomplete_fragment"
+            app:layout_constraintHorizontal_bias="0.529"
+            app:layout_constraintStart_toStartOf="@+id/autocomplete_fragment"
+            app:layout_constraintTop_toTopOf="@+id/autocomplete_fragment" />
 
-        <EditText
-            android:id="@+id/event_location_text"
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_marginEnd="28dp"
-            android:ems="10"
-            android:hint="Event Location"
-            android:inputType="textPersonName"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="@+id/event_name"
+        <androidx.fragment.app.FragmentContainerView
+            android:id="@+id/autocomplete_fragment"
+            android:name="com.google.android.libraries.places.widget.AutocompleteSupportFragment"
+            android:layout_width="150dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="70dp"
+            android:layout_marginBottom="92dp"
+            app:layout_constraintBottom_toTopOf="@+id/is_private_check_box"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/event_name"
-            app:layout_constraintTop_toTopOf="@+id/event_name" />
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0" />
 
         <Button
             android:id="@+id/date_time_set"
@@ -151,6 +165,7 @@
             android:text="Propose three (3) times for your event"
             app:layout_constraintBottom_toTopOf="@+id/create_event"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.462"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/propose_times_button"
             app:layout_constraintVertical_bias="1.0" />
@@ -175,5 +190,15 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:menu="@menu/bottom_navigation_menu" />
+
+        <TextView
+            android:id="@+id/textView3"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginEnd="56dp"
+            android:text="Enter a location below"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/prompt" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
