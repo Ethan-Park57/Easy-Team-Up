@@ -109,7 +109,9 @@ public class NotificationsActivity extends AppCompatActivity {
             //}
             notif = hostUser.get(0).getNotifications();
             if(deadlinedEvent != null){
+                String eventID;
                 notif.add("@" + deadlinedEvent);
+                db.collection("users").document(user.getUid()).update("notifications", notif);
             }
             notifAdapter = new NotificationsRecyclerViewAdapter(this, notif);
             recyclerView.setAdapter(notifAdapter);

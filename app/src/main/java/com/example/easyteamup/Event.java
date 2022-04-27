@@ -31,7 +31,7 @@ public class Event {
     }
 
     ArrayList<Date> proposedTimes;
-    ArrayList<Integer> proposedTimesVotes;
+    ArrayList<Long> proposedTimesVotes;
 
     public boolean isPrivateEvent() {
         return isPrivateEvent;
@@ -95,8 +95,8 @@ public class Event {
         isTimeSet = timeSet;
     }
 
-    public ArrayList<Integer> getProposedTimesVotes() { return proposedTimesVotes; }
-    public void setProposedTimesVotes(ArrayList<Integer> aList) {
+    public ArrayList<Long> getProposedTimesVotes() { return proposedTimesVotes; }
+    public void setProposedTimesVotes(ArrayList<Long> aList) {
         this.proposedTimesVotes = aList;
     }
 

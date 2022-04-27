@@ -16,6 +16,7 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -93,6 +94,15 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
             System.out.println("I'm here..");
             DocumentSnapshot document = task.getResult();
             eventNames.add(document.toObject(Event.class));
+
+            System.out.println("current event: " + eventNames.get(position).getEventName());
+            //System.out.println("proposedTimevotes: " + eventNames.get(position).proposedTimesVotes);
+
+            int maxAt = 0;
+            for (int i = 0; i < eventNames.get(position).getProposedTimesVotes().size(); i++) {
+                maxAt = eventNames.get(position).getProposedTimesVotes().get(i) > eventNames.get(position).getProposedTimesVotes().get(maxAt) ? i : maxAt;
+            }
+
             if (task.isSuccessful()) {
                 if (notifTypeAndNames.get(position).substring(0, 5).equals("CASE0")) {
                     holder.notificationTextView.setText("Someone registered for your event called: " + eventNames.get(position).eventName);
@@ -101,12 +111,15 @@ public class NotificationsRecyclerViewAdapter extends RecyclerView.Adapter<Notif
                 } else if (notifTypeAndNames.get(position).substring(0, 5).equals("CASE3")) {
                     holder.notificationTextView.setText("Someone has withdrawn from your event called: " + eventNames.get(position).eventName);
                 } else {
-                    holder.notificationTextView.setText("The event called  " + eventNames.get(position).eventName + "'s due time has passed, and the top proposed time is: " + "PROPOSED TIME");
+                    holder.notificationTextView.setText("The event called  " + eventNames.get(position).eventName + "'s due time has passed, and the top proposed time is: " +
+                            eventNames.get(position).proposedTimes.get(maxAt));
                 }
                 System.out.println("didnt finish");
             }
 
         });
+
+        //whe due time is finished --> check the maxTime Index and output that as the actualy time
 
 //        ArrayList<String> notifTypeAndNames = new ArrayList<>();
 //

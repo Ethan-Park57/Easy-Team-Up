@@ -107,6 +107,9 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
         setContentView(R.layout.activity_create_event);
         auth = FirebaseAuth.getInstance();
 
+        Calendar current = Calendar.getInstance();
+        System.out.println("Current time is...." + current.getTime());
+
 
         // Get all Users from database for search function
         db.collection("users")

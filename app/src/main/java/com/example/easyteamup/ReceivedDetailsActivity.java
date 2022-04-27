@@ -1,11 +1,13 @@
 package com.example.easyteamup;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.RadioButton;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -14,7 +16,9 @@ import com.example.easyteamup.Event;
 import com.example.easyteamup.R;
 import com.example.easyteamup.ManageEventActivity;
 import com.example.easyteamup.RegisteredDetailsActivity;
+import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.firestore.DocumentReference;
@@ -25,12 +29,13 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.ArrayList;
+import java.util.List;
 
 public class ReceivedDetailsActivity extends AppCompatActivity {
     FirebaseFirestore db = FirebaseFirestore.getInstance();
     TextView nameTextView, locationTextView, descriptionTextView, proposedTextView;
     String id, hostID, name, location, description, dueTime, proposed1, proposed2, proposed3;
-    RadioButton proposed1_button, proposed2_button, proposed3_button;
+    CheckBox proposed1_button, proposed2_button, proposed3_button;
     FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
     @Override
@@ -79,6 +84,35 @@ public class ReceivedDetailsActivity extends AppCompatActivity {
             // add the person to participants and remove from invitees
             @Override
             public void onClick(View v) {
+                db.collection("events").document(id).get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+                    @Override
+                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+                        DocumentSnapshot document = task.getResult();
+                        List<Long> VoteList = (List<Long>) document.get("proposedTimesVotes");
+                        if(proposed1_button.isChecked())
+                        {
+                            Long votecount = (VoteList.get(0));
+                            votecount++;
+                            VoteList.set(0, VoteList.get(0)+1);
+                        }
+                        if(proposed2_button.isChecked())
+                        {
+                            Long votecount = (VoteList.get(1));
+                            votecount++;
+                            VoteList.set(1, votecount);
+                        }
+                        if(proposed3_button.isChecked())
+                        {
+                            Long votecount = (VoteList.get(2));
+                            votecount++;
+                            VoteList.set(2, votecount);
+                        }
+//                        Log.d("tag", String.valueOf(VoteList.get(0)));
+//                        Log.d("tag", String.valueOf(VoteList.get(1)));
+//                        Log.d("tag", String.valueOf(VoteList.get(2)));
+                        db.collection("events").document(id).update("proposedTimesVotes", VoteList);
+                    }
+                });
                 DocumentReference docRef = db.collection("events").document(id);
                 docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
                     @Override
