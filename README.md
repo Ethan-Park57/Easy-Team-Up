@@ -7,7 +7,7 @@ Implement user story for users registering for an event which is sent to them pr
 
 Implement user story for users editing an event that they have sent to other users. The user should be able to view all Sent Events, click on any of them, and edit the details of that event from the EditEventActivity. 
 
-Notifications
+Notifications:
 When a user withdraws from an event that they registered for, this action should notify the host of the event. 
 When a user registers for an event they have been invited to, the host of the event should be notified. 
 When a user edits an event that they have sent to other users, each participant (user registered for that event) should receive a notification.
