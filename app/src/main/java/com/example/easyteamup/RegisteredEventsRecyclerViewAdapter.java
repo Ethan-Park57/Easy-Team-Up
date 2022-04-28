@@ -37,7 +37,7 @@ public class RegisteredEventsRecyclerViewAdapter extends RecyclerView.Adapter<Re
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.eventNameTextView.setText(data.get(position).getEventName());
-        holder.locationTextView.setText(data.get(position).getLocation());
+        holder.locationTextView.setText(" ");
 
         holder.registered_events_layout.setOnClickListener(new View.OnClickListener() {
             @Override

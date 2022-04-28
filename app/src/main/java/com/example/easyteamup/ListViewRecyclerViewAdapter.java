@@ -46,7 +46,7 @@ public class ListViewRecyclerViewAdapter extends RecyclerView.Adapter<ListViewRe
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.eventNameTextView.setText(data.get(position).getEventName());
-        holder.locationTextView.setText(data.get(position).getLocation());
+        holder.locationTextView.setText(" ");
 
         holder.list_events_layout.setOnClickListener(new View.OnClickListener() {
             @Override

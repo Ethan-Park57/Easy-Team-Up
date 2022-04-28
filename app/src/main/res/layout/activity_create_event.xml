@@ -164,7 +164,7 @@
             android:layout_height="57dp"
             android:layout_marginTop="120dp"
             android:layout_marginBottom="118dp"
-            android:text="Propose three (3) times for your event"
+            android:text="Propose times for your event"
             app:layout_constraintBottom_toTopOf="@+id/create_event"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.462"

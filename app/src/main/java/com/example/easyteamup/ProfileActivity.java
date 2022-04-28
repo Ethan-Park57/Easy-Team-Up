@@ -26,6 +26,7 @@ import com.google.android.material.navigation.NavigationBarView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.UserProfileChangeRequest;
+import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.firestore.QueryDocumentSnapshot;
@@ -116,7 +117,20 @@ public class ProfileActivity extends AppCompatActivity {
         notifButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(ProfileActivity.this, NotificationsActivity.class));
+                DocumentReference docRef = db.collection("users").document(user.getUid());
+                docRef.get().addOnSuccessListener(new OnSuccessListener<DocumentSnapshot>() {
+                    @Override
+                    public void onSuccess(DocumentSnapshot documentSnapshot) {
+                        User user2 = documentSnapshot.toObject(User.class);
+                        if (user2.getNotifications() != null) {
+                            startActivity(new Intent(ProfileActivity.this, NotificationsActivity.class));
+                        } else {
+                            Toast.makeText(ProfileActivity.this, "You have no notifications yet.", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+                });
+
             }
         });
 

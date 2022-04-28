@@ -108,7 +108,15 @@ public class EventDetailsActivity extends AppCompatActivity {
                             public void onSuccess(DocumentSnapshot documentSnapshot) {
                                 host = documentSnapshot.toObject(User.class);
 
-                                ArrayList<String> notificationsCopy = host.getNotifications();
+                                ArrayList<String> notificationsCopy;
+                                if (host.getNotifications() == null) {
+                                    notificationsCopy = new ArrayList<>();
+                                } else {
+                                    notificationsCopy = host.getNotifications();
+                                }
+
+                                System.out.println("event id: " + id);
+                                System.out.println("host id: " + e.getHostID());
                                 notificationsCopy.add("+" + id);
                                 db.collection("users").document(e.getHostID()).update(
                                         "notifications", notificationsCopy

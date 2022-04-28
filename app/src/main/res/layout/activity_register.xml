@@ -58,7 +58,7 @@
         android:layout_marginStart="3dp"
         android:layout_marginTop="17dp"
         android:ems="10"
-        android:hint="Password"
+        android:hint="Password(at least 6 chars)"
         android:inputType="textPersonName"
         app:layout_constraintStart_toStartOf="@+id/register_email"
         app:layout_constraintTop_toBottomOf="@+id/register_email" />

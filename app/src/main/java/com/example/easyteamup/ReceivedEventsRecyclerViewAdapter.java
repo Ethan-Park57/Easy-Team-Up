@@ -43,7 +43,7 @@ public class ReceivedEventsRecyclerViewAdapter extends RecyclerView.Adapter<Rece
     @Override
     public void onBindViewHolder(@NonNull MyViewHolder holder, int position) {
         holder.eventNameTextView.setText(data.get(position).getEventName());
-        holder.locationTextView.setText(data.get(position).getLocation());
+        holder.locationTextView.setText(" ");
 
         holder.received_events_layout.setOnClickListener(new View.OnClickListener() {
             @Override
