@@ -248,30 +248,30 @@ public class EditEventActivity extends AppCompatActivity implements AdapterView.
                 String id =  getIntent().getStringExtra("eventID");
                 hostID = auth.getCurrentUser().getUid();
 
-                if(!Event.isValidDescription(eventDescription)){
-                    Toast.makeText(EditEventActivity.this, "You need to have a description of at least 3 chars", Toast.LENGTH_SHORT).show();
-                }
-                if(!Event.isValidEventName(eventName)){
-                    Toast.makeText(EditEventActivity.this, "You need to have an event name of at least 1 character.", Toast.LENGTH_SHORT).show();
-                }
-                if(!eventName.equals("testinputs") && !Event.isValidTimeProposal(proposedTimes)){
-                    Toast.makeText(EditEventActivity.this, "You need to enter at least 1 proposed time", Toast.LENGTH_SHORT).show();
-                }
-                if(!Event.isValidInvite(isPrivate)){
-                    Toast.makeText(EditEventActivity.this, "You need to have a private event to invite people.", Toast.LENGTH_SHORT).show();
-                }
-                if(!Event.isValidFormatInvite(eventInvitees)){
-                    Toast.makeText(EditEventActivity.this, "DO NOT enter any spaces in between IDs when inviting users", Toast.LENGTH_SHORT).show();
-                }
-                if(!eventName.equals("testinputs")){
-                    if(deadLinedate != null){
-                        if(!Event.isValidDeadline(deadLinedate.getTime())) {
-                            Toast.makeText(EditEventActivity.this, "You need to have a deadline that is after the current time.", Toast.LENGTH_SHORT).show();
-                        }
-                    }else{
-                        Toast.makeText(EditEventActivity.this, "You need to input a deadline", Toast.LENGTH_SHORT).show();
-                    }
-                }
+//                if(!Event.isValidDescription(eventDescription)){
+//                    Toast.makeText(EditEventActivity.this, "You need to have a description of at least 3 chars", Toast.LENGTH_SHORT).show();
+//                }
+//                if(!Event.isValidEventName(eventName)){
+//                    Toast.makeText(EditEventActivity.this, "You need to have an event name of at least 1 character.", Toast.LENGTH_SHORT).show();
+//                }
+//                if(!eventName.equals("testinputs") && !Event.isValidTimeProposal(proposedTimes)){
+//                    Toast.makeText(EditEventActivity.this, "You need to enter at least 1 proposed time", Toast.LENGTH_SHORT).show();
+//                }
+//                if(!Event.isValidInvite(isPrivate)){
+//                    Toast.makeText(EditEventActivity.this, "You need to have a private event to invite people.", Toast.LENGTH_SHORT).show();
+//                }
+//                if(!Event.isValidFormatInvite(eventInvitees)){
+//                    Toast.makeText(EditEventActivity.this, "DO NOT enter any spaces in between IDs when inviting users", Toast.LENGTH_SHORT).show();
+//                }
+//                if(!eventName.equals("testinputs")){
+//                    if(deadLinedate != null){
+//                        if(!Event.isValidDeadline(deadLinedate.getTime())) {
+//                            Toast.makeText(EditEventActivity.this, "You need to have a deadline that is after the current time.", Toast.LENGTH_SHORT).show();
+//                        }
+//                    }else{
+//                        Toast.makeText(EditEventActivity.this, "You need to input a deadline", Toast.LENGTH_SHORT).show();
+//                    }
+//                }
                 //if(deadLinedate != null){
                 if(Event.isValidDescription(eventDescription)
                         && Event.isValidEventName(eventName)

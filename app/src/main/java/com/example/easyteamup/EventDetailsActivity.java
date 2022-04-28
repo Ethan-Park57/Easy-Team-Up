@@ -131,6 +131,7 @@ public class EventDetailsActivity extends AppCompatActivity {
                                 });
                             }
                         });
+                        startActivity(new Intent(getApplicationContext(),ManageEventActivity.class));
                     }
                 });
             }

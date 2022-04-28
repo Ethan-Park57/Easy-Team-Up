@@ -272,32 +272,34 @@ public class CreateEventActivity extends AppCompatActivity implements AdapterVie
                 if(!Event.isValidInvite(isPrivate)){
                     Toast.makeText(CreateEventActivity.this, "You need to have a private event to invite people.", Toast.LENGTH_SHORT).show();
                 }
-                if(!Event.isValidFormatInvite(eventInvitees)){
-                    Toast.makeText(CreateEventActivity.this, "DO NOT enter any spaces in between IDs when inviting users", Toast.LENGTH_SHORT).show();
+                if(isPrivate && !Event.isValidFormatInvite(eventInvitees)){
+                    Toast.makeText(CreateEventActivity.this, "DO NOT enter any spaces in between IDs when inviting users if you choose to do so.", Toast.LENGTH_SHORT).show();
                 }
                 if(!eventName.equals("testinputs")){
                     if(deadLinedate != null){
                         if(!Event.isValidDeadline(deadLinedate.getTime())) {
-                            Toast.makeText(CreateEventActivity.this, "You need to have a deadline that is after the current time.", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(CreateEventActivity.this, "You should have a deadline that is after the current time.", Toast.LENGTH_SHORT).show();
                         }
                     }else{
                         Toast.makeText(CreateEventActivity.this, "You need to input a deadline", Toast.LENGTH_SHORT).show();
                     }
                 }
-                //if(deadLinedate != null){
-//                    if(Event.isValidDescription(eventDescription)
-//                            && Event.isValidEventName(eventName)
-//                            ){
+                if(deadLinedate != null){
+                    if(Event.isValidDescription(eventDescription)
+                           && Event.isValidEventName(eventName) && Event.isValidTimeProposal(proposedTimes)
+                            ){
                         startActivity(new Intent(CreateEventActivity.this, ManageEventActivity.class));
-//                        if(!eventName.equals("testinputs")){
+                        if(!eventName.equals("testinputs")){
                             insertData(db, data, ps, id, eventDescription, eventName, isPrivate, inviteesIDs,
                                     eventLocation, deadLinedate.getTime(), proposedTimes, hostID,
                                     proposedTimesIndexes);
-                        //}
-
-                    //}
-                //}
-
+                        }
+                    }else{
+                        Toast.makeText(CreateEventActivity.this, "Please make sure your fields are correct.", Toast.LENGTH_SHORT).show();
+                    }
+                }else{
+                    Toast.makeText(CreateEventActivity.this, "Please make sure your fields are correct.", Toast.LENGTH_SHORT).show();
+                }
             }
         });
         navigationView = (BottomNavigationView) findViewById(R.id.bottom_navigation);

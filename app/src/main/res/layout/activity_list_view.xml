@@ -47,9 +47,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        app:itemBackground="@color/purple_500"
-        app:itemIconTint="@drawable/selector"
-        app:itemTextColor="@drawable/selector"
+        app:itemBackground="@color/quantum_yellow"
+        app:itemIconTint="#D50B0B"
+        app:itemTextColor="#D50B0B"
         app:menu="@menu/bottom_navigation_menu" />
 
 </RelativeLayout>

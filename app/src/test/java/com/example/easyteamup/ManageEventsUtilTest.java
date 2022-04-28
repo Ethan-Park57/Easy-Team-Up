@@ -32,16 +32,6 @@ public class ManageEventsUtilTest {
     }
 
     @Test
-    public void hasValidLocation() {
-        assertTrue(ManageEventsUtil.hasValidLocation("Leavey Library"));
-    }
-
-    @Test
-    public void hasNotValidLocation() {
-        assertFalse(ManageEventsUtil.hasValidLocation(""));
-    }
-
-    @Test
     public void hasValidDescription() {
         assertTrue(ManageEventsUtil.hasValidDescription("Fun Study Sesh!"));
     }

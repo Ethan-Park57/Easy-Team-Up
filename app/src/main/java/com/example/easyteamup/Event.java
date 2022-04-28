@@ -137,7 +137,7 @@ public class Event {
         for(int i = 0; i < desc.length(); i++) {
             count++;
         }
-        if(count < 4){
+        if(count < 3){
             return false;
         }else{
             return true;

@@ -150,7 +150,11 @@ public class ReceivedDetailsActivity extends AppCompatActivity {
                                 "invitees", inviteesCopy
                         );
                         Toast.makeText(ReceivedDetailsActivity.this, "Successfully " +
-                                "registered for the event!", Toast.LENGTH_SHORT).show();                    }
+                                "registered for the event!", Toast.LENGTH_SHORT).show();
+
+                        startActivity(new Intent(getApplicationContext(),ManageEventActivity.class));
+                    }
+
                 });
             }
         });
