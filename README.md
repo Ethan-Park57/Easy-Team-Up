@@ -1,5 +1,27 @@
 # Easy-Team-Up
 
+2.5 Sprint
+We made the following improvements to our application in project 2.5.
+
+Implement user story for users registering for an event which is sent to them privately. The user should be able to view all Received Events, click on any of them, and register for them on a page displaying Event Details. 
+
+Implement user story for users editing an event that they have sent to other users. The user should be able to view all Sent Events, click on any of them, and edit the details of that event from the EditEventActivity. 
+
+Notifications
+When a user withdraws from an event that they registered for, this action should notify the host of the event. 
+When a user registers for an event they have been invited to, the host of the event should be notified. 
+When a user edits an event that they have sent to other users, each participant (user registered for that event) should receive a notification.
+When a user views the details of any event, they should be able to view all three proposed times, not just one. Before this, users could only see the first proposed time. 
+
+
+Implementation of Voting System where Proposed Event Times votes are recorded and when the due time is finished for the event, the most voted on Proposed time is set as the event time.
+
+Let the user choose a location from a Google API  drop down bar of locations.
+
+Implementation of showing the specific location of each event on a map using the Google Map Marker Api. Moreover, the user can differentiate between the events by clicking on them and seeing the title of the event on the marker. 
+
+
+2.4 - Testing
 We tested our app on a Pixel 2 API 30.
 
 To run our app, open Android Studio and hit the green triangle Run button in the top right. 
